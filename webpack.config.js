@@ -12,7 +12,7 @@ module.exports= {
     //页面入口文件配置
     entry: {
         //iindex: path.resolve(APP_PATH, 'index.jsx')//,
-        ndex:  './app/index.jsx'//,
+        index:  './app/index.jsx'//,
         //支持数组形式，将加载数组中的所有模块，但以最后一个模块作为输出
         //page2: ["./entry1", "./entry2"]
     },
@@ -27,6 +27,7 @@ module.exports= {
     devtool: 'eval-source-map',
     //enable dev server
     devServer: {
+        contentBase: './app/',
         historyApiFallback: true,
         hot: true,
         inline: true,
