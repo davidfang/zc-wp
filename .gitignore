@@ -1,4 +1,7 @@
 .idea
+#dist
+dist
+!dist/README.md
 # Logs
 logs
 *.log
