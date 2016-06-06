@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "zcWp",
+    "style": "css",
+    "postcss": true
+  }
+}
