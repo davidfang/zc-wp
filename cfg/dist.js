@@ -10,7 +10,13 @@ let defaultSettings = require('./defaults');
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
-  entry: path.join(__dirname, '../src/index'),
+  entry: {
+    app:path.join(__dirname, '../src/index'),
+    //设置一个vender数组，里面是第三方库
+    venders: ['react','react-dom']
+    //'react': ['react'],
+    //'reactDom': ['react-dom']
+  },
   cache: false,
   devtool: 'sourcemap',
   plugins: [
@@ -24,7 +30,10 @@ let config = Object.assign({}, baseConfig, {
     new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    //将venders数组下的第三方库统一打包为一个venders.js的文件
+    new webpack.optimize.CommonsChunkPlugin('venders', 'venders.js')
+    //new webpack.optimize.CommonsChunkPlugin({names: ['react', 'reactDom'], filename: '[name].js'})
   ],
   module: defaultSettings.getDefaultModules()
 });

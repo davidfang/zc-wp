@@ -9,11 +9,13 @@ let defaultSettings = require('./defaults');
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
-  entry: [
-    'webpack-dev-server/client?http://127.0.0.1:' + defaultSettings.port,
-    'webpack/hot/only-dev-server',
-    './src/index'
-  ],
+  entry: {
+    //'webpack-dev-server/client?http://127.0.0.1:8000',
+    //'webpack/hot/only-dev-server',
+    app:'./src/index',
+    //设置一个vender数组，里面是第三方库
+    venders: ['react','react-dom']
+  },
   cache: true,
   devtool: 'eval-source-map',
   plugins: [
@@ -21,7 +23,9 @@ let config = Object.assign({}, baseConfig, {
     new webpack.NoErrorsPlugin(),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
-    })
+    }),
+    //将venders数组下的第三方库统一打包为一个venders.js的文件
+    new webpack.optimize.CommonsChunkPlugin('venders', 'venders.js')
   ],
   module: defaultSettings.getDefaultModules()
 });

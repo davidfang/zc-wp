@@ -9,7 +9,7 @@
     "test": "karma start",
     "test:watch": "karma start --autoWatch=true --singleRun=false",
     "posttest": "npm run lint",
-    "serve": "node server.js --env=dev",
+    "serve": "npm run clean && node server.js --env=dev",
     "serve:dist": "node server.js --env=dist",
     "dist": "npm run copy & webpack --env=dist",
     "lint": "eslint ./src",
@@ -67,6 +67,7 @@
     "normalize.css": "^3.0.3",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "material-ui":"^0.15.0",
     "react-tap-event-plugin": "^1.0.0"
   }
 }
