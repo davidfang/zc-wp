@@ -1,17 +1,19 @@
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import AppBar from 'material-ui/AppBar';
-import FootComponent from './FootComponent';
 
+import Head from './Head';
+import Body from './Body';
+import Foot from './Foot';
 class Main extends React.Component {
   render() {
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <div>
-        <AppBar title="小微盘" />
-        <FootComponent />
-          </div>
+          <Head />
+          <Body />
+          <Foot />
+        </div>
       </MuiThemeProvider>
     );
   }
