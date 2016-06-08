@@ -3,7 +3,6 @@
  */
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
 
 import Avatar from 'material-ui/Avatar';
 
@@ -12,11 +11,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 class Head extends React.Component{
   render(){
     let style = {
-      margin: 12
+      margin: 2
     };
-    return <AppBar
+    return <AppBar 
       title="资金：9000元"
-      iconElementLeft={<IconButton><Avatar src="images/yeoman.png" /></IconButton>}
+      iconElementLeft={<Avatar src="images/yeoman.png" />}
       iconElementRight={
         <RaisedButton label="充值" fullWidth={true} linkButton={true} style={style} />
       }

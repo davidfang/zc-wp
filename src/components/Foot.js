@@ -4,14 +4,14 @@
 import React from 'react';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
-import ActionFlightTakeoff from 'material-ui/svg-icons/action/flight-takeoff';
 class Foot extends React.Component{
   render(){
     return (
       <Tabs>
-        <Tab icon={<FontIcon className="muidocs-icon-action-home" />} />
-        <Tab icon={<ActionFlightTakeoff />} />
-        <Tab icon={<FontIcon className="material-icons">favorite</FontIcon>} />
+        <Tab label="行情" icon={<FontIcon className="material-icons">monetization_on</FontIcon>} />
+        <Tab label="账户" icon={<FontIcon className="material-icons">account_box</FontIcon>} />
+        <Tab label="数据" icon={<FontIcon className="material-icons">explore</FontIcon>} />
+        <Tab label="帮助" icon={<FontIcon className="material-icons">help</FontIcon>} />
       </Tabs>
     )
   }
