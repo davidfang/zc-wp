@@ -10,14 +10,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 class Head extends React.Component{
   render(){
-    let style = {
-      margin: 2
-    };
-    return <AppBar 
+    return <AppBar
       title="资金：9000元"
       iconElementLeft={<Avatar src="images/yeoman.png" />}
       iconElementRight={
-        <RaisedButton label="充值" fullWidth={true} linkButton={true} style={style} />
+        <RaisedButton label="充值" fullWidth={true} linkButton={true}  />
       }
     />
   }

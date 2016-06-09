@@ -7,11 +7,15 @@ import GoodsBox from './GoodsBox';
 import StockCharts from './StockCharts';
 
 class Body extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {k:'546'}
+  }
   render(){
     //let style = {};
     return <div>
         <GoodsBox />
-        <StockCharts />
+        <StockCharts k={this.state.k}   />
     </div>
 
   }
