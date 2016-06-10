@@ -11,19 +11,49 @@ class Price extends React.Component{
     let styles = {
       up:{
         color:'white',
-        background:red500,
-        border: 'solid 1px #607D8B'
+        background:red500
       },
       down:{
         color: 'white',
-        background:lightGreen500,
-        border: 'solid 1px #607D8B'
+        background:lightGreen500
+      },
+      iconUp:{
+        color:red500,
+        background:'white',
+        marginLeft:15,
+        marginRight:15
+      },
+      iconDown:{
+        color: lightGreen500,
+        background:'white',
+        marginLeft:15,
+        marginRight:15
       }
     };
-    return <TableRowColumn style={styles.up}>
-      <span>白银  <big>3100</big></span>
-      <FontIcon className="material-icons" style={styles.up} >trending_up</FontIcon>
-      0.3
+    var lastStyle = {},
+    changeStyle = {},
+      icon = '',
+    iconStyle ={};
+
+    if (this.props.stock.change < 0) {
+      lastStyle = styles.down ;
+        changeStyle = {};
+      icon = 'trending_down';
+        iconStyle =styles.iconDown;
+    }else if (this.props.stock.change > 0){
+      lastStyle = styles.up;
+      changeStyle = {};
+      icon = 'trending_up';
+      iconStyle =styles.iconUp;
+    }
+
+
+
+
+    return <TableRowColumn style={lastStyle}>
+      <span>{this.props.stock.symbol}  <big>{this.props.stock.last}</big></span>
+      <FontIcon className="material-icons" style={iconStyle} >{icon}</FontIcon>
+      <i>{this.props.stock.change}</i>
     </TableRowColumn>
   }
 }

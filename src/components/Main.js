@@ -44,7 +44,7 @@ class Main extends React.Component {
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <div>
           <Head />
-          <Body />
+          <Body stocks={this.state.stocks} last={this.state.last}/>
           <WatchStock watchStockHandler={this.watchStock}/>
           <StockTable stocks={this.state.stocks} last={this.state.last} unwatchStockHandler={this.unwatchStock}/>
           <div className="row">

@@ -8,13 +8,20 @@ import {Table, TableBody,  TableRow} from 'material-ui/Table';
 import GoodGroup from './GoodGroup';
 import Price from './Price';
 class GoodsBox extends React.Component{
+  constructor(props) {
+    super(props);
+  }
   render(){
+    var items = [];
+    for (var symbol in this.props.stocks) {
+      var stock = this.props.stocks[symbol];
+      items.push(<Price key={stock.symbol} stock={stock} last={this.props.last} />);
+    }
     return   <div>
       <Table>
         <TableBody  displayRowCheckbox={false}>
           <TableRow selectable={false}>
-            <Price />
-            <Price />
+            {items}
           </TableRow>
         </TableBody>
       </Table>
