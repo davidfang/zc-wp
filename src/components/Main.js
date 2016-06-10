@@ -6,8 +6,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Head from './Head';
 import Body from './Body';
 import Foot from './Foot';
-import WatchStock from './WatchStock';
-import StockTable from './StockTable';
+import StockList from './StockList';
+
 import feed from './Feed';
 class Main extends React.Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class Main extends React.Component {
     var stocks = {};
     feed.onChange(function (stock) {
       stocks[stock.symbol] = stock;
-      this.setState ( {stocks: stocks, last: stock});
+      this.setState({stocks: stocks, last: stock});
       //console.log(stock);
     }.bind(this));
     this.state = {stocks: stocks};
@@ -45,13 +45,8 @@ class Main extends React.Component {
         <div>
           <Head />
           <Body stocks={this.state.stocks} last={this.state.last}/>
-          <WatchStock watchStockHandler={this.watchStock}/>
-          <StockTable stocks={this.state.stocks} last={this.state.last} unwatchStockHandler={this.unwatchStock}/>
-          <div className="row">
-            <div className="alert alert-warning" role="alert">All stock values are fake and changes are simulated. Do
-              not trade based on the above data.
-            </div>
-          </div>
+          <StockList watchStock={this.watchStock} stocks={this.state.stocks} last={this.state.last}
+                     unwatchStock={this.unwatchStock}/>
           <Foot />
         </div>
       </MuiThemeProvider>

@@ -9,14 +9,13 @@ import StockCharts from './StockCharts';
 class Body extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {k: '546'}
   }
 
   render() {
     //let style = {};
     return <div>
       <GoodsBox  stocks={this.props.stocks} last={this.props.last}/>
-      <StockCharts k={this.state.k}/>
+      <StockCharts />
     </div>
 
   }
