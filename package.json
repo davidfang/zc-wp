@@ -52,7 +52,7 @@
     "null-loader": "^0.1.1",
     "open": "0.0.5",
     "phantomjs-prebuilt": "^2.0.0",
-    "react-addons-test-utils": "^15.1.0",
+    "react-addons-test-utils": "^15.0.0",
     "react-hot-loader": "^1.2.9",
     "rimraf": "^2.4.3",
     "style-loader": "^0.13.0",
@@ -64,10 +64,12 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
+    "material-ui": "^0.15.0",
     "normalize.css": "^3.0.3",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
-    "material-ui":"^0.15.0",
-    "react-tap-event-plugin": "^1.0.0"
+    "react-tap-event-plugin": "^1.0.0",
+    "socket.io": "^1.4.6",
+    "socket.io-client": "^1.4.6"
   }
 }

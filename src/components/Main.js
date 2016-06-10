@@ -2,11 +2,9 @@ import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-
 import Head from './Head';
 import Body from './Body';
 import Foot from './Foot';
-import StockList from './StockList';
 
 import feed from './Feed';
 class Main extends React.Component {
@@ -45,8 +43,6 @@ class Main extends React.Component {
         <div>
           <Head />
           <Body stocks={this.state.stocks} last={this.state.last}/>
-          <StockList watchStock={this.watchStock} stocks={this.state.stocks} last={this.state.last}
-                     unwatchStock={this.unwatchStock}/>
           <Foot />
         </div>
       </MuiThemeProvider>
