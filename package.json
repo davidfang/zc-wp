@@ -69,6 +69,8 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-tap-event-plugin": "^1.0.0",
+    "d3":"",
+    "react-stockcharts":"",
     "socket.io": "^1.4.6",
     "socket.io-client": "^1.4.6"
   }
