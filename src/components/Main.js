@@ -5,7 +5,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Head from './Head';
 import Body from './Body';
 import Foot from './Foot';
-import CandleStickChart from '../lib/charts/CandleStickChart';
+import CandleStickChartWithEdge from '../lib/charts/CandleStickChartWithEdge';
 
 class Main extends React.Component {
   constructor(props) {
@@ -17,12 +17,13 @@ class Main extends React.Component {
 
 
   render() {
+    let products = ['白银', '原油'];
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <div>
           <Head />
-          <Body />
-          <CandleStickChart data={this.props.data} type="hybrid" width={300}/>
+          <Body  data={this.props.data} products={products}  />
+
           <Foot />
         </div>
       </MuiThemeProvider>

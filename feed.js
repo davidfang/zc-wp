@@ -10,12 +10,12 @@ var stocks = [
     {symbol: "AAL", open: 55.76},
     {symbol: "LLY", open: 76.12},
     {symbol: "JPM", open: 61.75},*/
-    {symbol: "BAC", open: 15.84},
-    {symbol: "BA", open: 154.50}
+    {symbol: "白银", open: 47.84},
+    {symbol: "原油", open: 46.50}
 ];
 
 stocks.forEach(function(stock) {
-    stock.last = stock.open;
+    stock.close = stock.open;
     stock.high = stock.open;
     stock.low = stock.open;
 });
@@ -27,33 +27,34 @@ function simulateChange() {
 
         maxChange = stock.open * 0.005,
         change = maxChange - Math.random() * maxChange * 2,
-        last;
+        close;
 
     change = Math.round(change * 100) / 100;
     change = change === 0 ? 0.01 : change;
 
-    last = stock.last + change;
+    close = stock.close + change;
 
-    if (last > stock.open * 1.15 || last < stock.open * 0.85)
+    if (close > stock.open * 1.15 || close < stock.open * 0.85)
     {
         change = -change;
-        last = stock.last + change;
+        close = stock.close + change;
     }
 
     stock.change = change;
-    stock.last = Math.round(last * 100) / 100;
-    if (stock.last > stock.high) {
-        stock.high = stock.last;
+    stock.close = Math.round(close * 100) / 100;
+    if (stock.close > stock.high) {
+        stock.high = stock.close;
     }
-    if (stock.last < stock.low) {
-        stock.low = stock.last;
+    if (stock.close < stock.low) {
+        stock.low = stock.close;
     }
+  stock.date = '2015-07-01'
     onChangeHandler(stock.symbol, 'stock', stock);
 }
 
 function start(onChange) {
     onChangeHandler = onChange;
-    interval = setInterval(simulateChange, 200);
+    interval = setInterval(simulateChange, 20000);
 }
 
 function stop() {
