@@ -46,7 +46,7 @@ class Price extends React.Component {
 
 
     return <TableRowColumn style={lastStyle}>
-      <span>{this.props.stock.symbol} <big>{this.props.stock.last}</big></span>
+      <span>{this.props.stock.symbol} <big>{this.props.stock.close}</big></span>
       <FontIcon className="material-icons" style={iconStyle}>{icon}</FontIcon>
       <i>{this.props.stock.change}</i>
     </TableRowColumn>

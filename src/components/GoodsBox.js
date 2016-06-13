@@ -9,7 +9,7 @@ class GoodsBox extends React.Component{
   constructor(props) {
     super(props);
   }
-  render(){
+  render(){console.log('GoodsBox执行一次');
     var items = [];
     for (var symbol in this.props.stocks) {
       var stock = this.props.stocks[symbol];

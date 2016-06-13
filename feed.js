@@ -19,9 +19,8 @@ stocks.forEach(function(stock) {
     stock.high = stock.open;
     stock.low = stock.open;
 });
-
+var Idate =1;
 function simulateChange() {
-
     var index = Math.floor(Math.random() * stocks.length),
         stock = stocks[index],
 
@@ -48,13 +47,29 @@ function simulateChange() {
     if (stock.close < stock.low) {
         stock.low = stock.close;
     }
-  stock.date = '2015-07-01'
-    onChangeHandler(stock.symbol, 'stock', stock);
+  Idate++;
+  stock.date = addDate('2015-06-08',Idate);
+  stock.adjclose = null;
+  stock.volume = Math.floor(Math.random() * 100000 + 24600000);
+  onChangeHandler(stock.symbol, 'stock', stock);
 }
-
+function addDate(date,days){
+  var d=new Date(date);
+  d.setDate(d.getDate()+days);
+  var month=d.getMonth()+1;
+  var day = d.getDate();
+  if(month<10){
+    month = "0"+month;
+  }
+  if(day<10){
+    day = "0"+day;
+  }
+  var val = d.getFullYear()+"-"+month+"-"+day;
+  return val;
+}
 function start(onChange) {
     onChangeHandler = onChange;
-    interval = setInterval(simulateChange, 20000);
+    interval = setInterval(simulateChange, 2000);
 }
 
 function stop() {

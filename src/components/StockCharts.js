@@ -6,16 +6,15 @@ import RaisedButton from 'material-ui/RaisedButton';
 import CandleStickChartWithEdge from '../lib/charts/CandleStickChartWithEdge';
 
 class StockCharts extends React.Component{
+  constructor(props) {
+    super(props);
+  }
   render(){
-
-
+    console.log('StockCharts执行一次');
     return <div>
       <div>{this.props.name}</div>
       <CandleStickChartWithEdge data={this.props.data} type="hybrid"/>
     </div>
   }
 }
-CandleStickChartWithEdge.propTypes = {
-  data: React.PropTypes.array.isRequired
-};
 export default StockCharts;

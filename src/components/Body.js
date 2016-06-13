@@ -19,28 +19,41 @@ class Body extends React.Component {
     this.unwatchStock = this.unwatchStock.bind(this);
     this.changeStockCharts = this.changeStockCharts.bind(this);
 
+
+
+
+
+
+  }
+  componentWillMount () {
     //feed.watch(['MCD', 'BA',  'LLY', 'GM', 'GE', 'UAL', 'WMT', 'AAL', 'JPM']);
     feed.watch(this.props.products);
     var stocks = {};
     let checkedStock = this.props.products[0];//这里还是做个区别，这里是选择产品K线图
     var data = this.props.data;
+    this.setState({stocks: stocks, checkedStock: checkedStock, data: data});
+    console.log('A componentWillMount');
+  }
+  componentDidMount() {
+
     feed.onChange(function (stock) {
-      stocks[stock.symbol] = stock;
+      let state = this.state;
+      state.stocks[stock.symbol] = stock;
       let d = {};
       d.date = new Date(parseDate(stock.date).getTime());
       d.open = +stock.open;
       d.high = +stock.high;
       d.low = +stock.low;
       d.close = +stock.close
-      data.push(d);
+      state.data.push(d);
+      state.last = stock;
       //data =>{}
-      this.setState({stocks: stocks, last: stock, checkedStock: this.state.checkedStock, data: data});
+      this.setState(state);
       //console.log(stock);
     }.bind(this));
 
+}
 
-    this.state = {stocks: stocks, checkedStock: checkedStock, data: data};
-  }
 
   watchStock(symbols) {
     symbols = symbols.replace(/ /g, '');
