@@ -15,6 +15,9 @@ var stocks = [
 ];
 
 stocks.forEach(function(stock) {
+    var openChange = stock.open *( Math.random()/10);
+    openChange = openChange *  (1 - Math.random()  * 2);
+    stock.open = stock.open + openChange;
     stock.close = stock.open;
     stock.high = stock.open;
     stock.low = stock.open;
@@ -28,29 +31,46 @@ function simulateChange() {
         change = maxChange - Math.random() * maxChange * 2,
         close;
 
-    change = Math.round(change * 100) / 100;
+    //change = Math.round(change * 100) / 100;
     change = change === 0 ? 0.01 : change;
 
     close = stock.close + change;
 
-    if (close > stock.open * 1.15 || close < stock.open * 0.85)
+    if (close > stock.open * 1.10 || close < stock.open * 0.90)
     {
         change = -change;
         close = stock.close + change;
+      console.log('cccc');
     }
 
     stock.change = change;
+
+
+    stock.high = stock.close + Math.random() * maxChange;
+    stock.low = stock.close + Math.random() * maxChange;
     stock.close = Math.round(close * 100) / 100;
-    if (stock.close > stock.high) {
-        stock.high = stock.close;
+    if (stock.open > stock.high) {
+        stock.high = stock.open;
     }
+    if (stock.open < stock.low) {
+        stock.low = stock.open;
+    }
+    if (stock.close > stock.high) {
+          stock.high = stock.close;
+      }
     if (stock.close < stock.low) {
         stock.low = stock.close;
     }
+  stock.open = Math.floor(stock.open * 100)/100;//格式化为只保留两位小数
+  stock.close = Math.floor(stock.close * 100)/100;//格式化为只保留两位小数
+  stock.change = Math.floor(stock.change * 100)/100;//格式化为只保留两位小数
+  stock.high = Math.floor(stock.high * 100)/100;//格式化为只保留两位小数
+  stock.low = Math.floor(stock.low * 100)/100;//格式化为只保留两位小数
+
   Idate++;
   stock.date = addDate('2015-06-08',Idate);
   stock.adjclose = null;
-  stock.volume = Math.floor(Math.random() * 100000 + 24600000);
+  stock.volume = Math.floor(Math.random() * 5000000 + 24600000);
   onChangeHandler(stock.symbol, 'stock', stock);
 }
 function addDate(date,days){

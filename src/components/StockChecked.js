@@ -9,12 +9,16 @@ class StockChecked extends React.Component {
     super(props);
     this.changeStockCharts = this.changeStockCharts.bind(this)
   }
+
+  /**
+   * 选择股票图
+   */
   changeStockCharts() {
     this.props.changeStockCharts(this.props.stock);
   }
   render() {
     const style = {
-      margin: 12,
+      margin: 12
     };
     if (this.props.stock != this.props.checkedStock) {
       return <RaisedButton onClick={this.changeStockCharts} label={this.props.stock} primary={true} style={style}/>

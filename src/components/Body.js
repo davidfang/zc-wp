@@ -18,6 +18,7 @@ class Body extends React.Component {
     this.watchStock = this.watchStock.bind(this);
     this.unwatchStock = this.unwatchStock.bind(this);
     this.changeStockCharts = this.changeStockCharts.bind(this);
+    this.changeTimeType = this.changeTimeType.bind(this);
 
 
 
@@ -31,7 +32,7 @@ class Body extends React.Component {
     var stocks = {};
     let checkedStock = this.props.products[0];//这里还是做个区别，这里是选择产品K线图
     var data = this.props.data;
-    this.setState({stocks: stocks, checkedStock: checkedStock, data: data});
+    this.setState({stocks: stocks, checkedStock: checkedStock,timeType:'F1', data: data });
     console.log('A componentWillMount');
   }
   componentDidMount() {
@@ -44,7 +45,8 @@ class Body extends React.Component {
       d.open = +stock.open;
       d.high = +stock.high;
       d.low = +stock.low;
-      d.close = +stock.close
+      d.close = +stock.close;
+      d.volume = +stock.volume;
       state.data.push(d);
       state.last = stock;
       //data =>{}
@@ -79,6 +81,14 @@ class Body extends React.Component {
     state.checkedStock = stock;
     this.setState(state);
   }
+  /**
+   * 变更时间类型
+   */
+  changeTimeType(timeType) {
+    let state = this.state;
+    state.timeType = timeType;
+    this.setState(state);
+  }
 
   render() {
 
@@ -101,8 +111,14 @@ class Body extends React.Component {
       <div>
         {products}
       </div>
-      <StockCharts stocks={this.state.stocks} last={this.state.last} name={this.state.checkedStock}
-                   data={this.props.data}/>
+      <StockCharts
+        stocks={this.state.stocks}
+        last={this.state.last}
+        name={this.state.checkedStock}
+        data={this.props.data}
+        timeType={this.state.timeType}
+        changeTimeType={this.changeTimeType}
+      />
     </div>
 
   }
