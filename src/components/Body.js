@@ -17,8 +17,8 @@ class Body extends React.Component {
     super(props);
     this.watchStock = this.watchStock.bind(this);
     this.unwatchStock = this.unwatchStock.bind(this);
-    this.changeStockCharts = this.changeStockCharts.bind(this);
-    this.changeTimeType = this.changeTimeType.bind(this);
+    this.changeState = this.changeState.bind(this);
+    this.setData = this.setData.bind(this);
 
 
 
@@ -53,8 +53,18 @@ class Body extends React.Component {
       //console.log(stock);
     }.bind(this));
 
-}
+  }
 
+  /**
+   * 修改state值
+   * @param key
+   * @param value
+     */
+  changeState(key,value){
+    let state = this.state;
+     eval('state.'+ key +' = "'+value+'";');
+    this.setState(state);
+  }
 
   watchStock(symbols) {
     symbols = symbols.replace(/ /g, '');
@@ -72,29 +82,34 @@ class Body extends React.Component {
   }
 
   /**
-   * 选择股票K线图
-   * @param stock
+   * 设置数据
    */
-  changeStockCharts(stock) {
-    let state = this.state;
-    state.checkedStock = stock;
-    this.setState(state);
+  setData(){
+    d3.tsv('./data/MSFT.tsv', function(err, data) {
+      data.forEach((d, i) => {
+        d.date = new Date(parseDate(d.date).getTime());
+        d.open = +d.open;
+        d.high = +d.high;
+        d.low = +d.low;
+        d.close = +d.close;
+        d.volume = +d.volume;
+        // console.log(d);
+      });
+      this.changeState('data',data);
+    });
   }
   /**
-   * 变更时间类型
+   * 更新数据
    */
-  changeTimeType(timeType) {
-    let state = this.state;
-    state.timeType = timeType;
-    this.setState(state);
-  }
+  changeData(){
 
+  }
   render() {
     console.log('body  中this.state');
     console.log(this.state);
     let products = this.props.products.map(x=> {
       return <StockChecked key={x} stock={x} checkedStock={this.state.checkedStock}
-                           changeStockCharts={this.changeStockCharts}/>
+                           changeState={this.changeState}/>
     });
 
     return <div>
@@ -117,7 +132,8 @@ class Body extends React.Component {
         name={this.state.checkedStock}
         data={this.props.data}
         timeType={this.state.timeType}
-        changeTimeType={this.changeTimeType}
+        changeState={this.changeState}
+        setData = {this.setData}
       />
     </div>
 

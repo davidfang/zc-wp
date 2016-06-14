@@ -13,7 +13,7 @@ class TimeType extends React.Component {
    * 变更时间类型
    */
   changeTimeType() {
-    this.props.changeTimeType(this.props.name);
+    this.props.changeState('timeType',this.props.name);
   }
   render() {
     const style = {

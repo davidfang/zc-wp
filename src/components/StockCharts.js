@@ -8,21 +8,21 @@ import TimeType from './TimeType';
 class StockCharts extends React.Component{
   constructor(props) {
     super(props);
-    this.changeTimeType = this.changeTimeType.bind(this);
   }
   shouldComponentUpdate(nextProps, nextState){
+    console.log('shouldComponentUpdate');
+    console.log('nextProps');
+    console.log(nextProps);
+    console.log('thisProps');
+    console.log(this.props);
+    return false;
     return nextProps.data == this.props.data;
   }
-  /**
-   * 变更时间类型
-   */
-  changeTimeType() {
-    this.props.timeType();
-  }
+
   render(){
     console.log('StockCharts执行一次');
     let timeTypes = ['F1','M1'].map(timeType=>{
-      return <TimeType key={timeType} name={timeType} n timeType={this.props.timeType} changeTimeType={this.props.changeTimeType} />
+      return <TimeType key={timeType} name={timeType}  timeType={this.props.timeType} changeState={this.props.changeState} />
     });
 
     return <div>
