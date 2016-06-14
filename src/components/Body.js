@@ -33,7 +33,6 @@ class Body extends React.Component {
     let checkedStock = this.props.products[0];//这里还是做个区别，这里是选择产品K线图
     var data = this.props.data;
     this.setState({stocks: stocks, checkedStock: checkedStock,timeType:'F1', data: data });
-    console.log('A componentWillMount');
   }
   componentDidMount() {
 
@@ -47,7 +46,7 @@ class Body extends React.Component {
       d.low = +stock.low;
       d.close = +stock.close;
       d.volume = +stock.volume;
-      state.data.push(d);
+      //state.data.push(d);
       state.last = stock;
       //data =>{}
       this.setState(state);
@@ -91,12 +90,13 @@ class Body extends React.Component {
   }
 
   render() {
-
+    console.log('body  中this.state');
+    console.log(this.state);
     let products = this.props.products.map(x=> {
       return <StockChecked key={x} stock={x} checkedStock={this.state.checkedStock}
                            changeStockCharts={this.changeStockCharts}/>
     });
-    console.log(this.state);
+
     return <div>
       <GoodsBox stocks={this.state.stocks} last={this.state.last}/>
       <div>

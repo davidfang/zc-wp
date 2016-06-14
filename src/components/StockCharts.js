@@ -10,6 +10,9 @@ class StockCharts extends React.Component{
     super(props);
     this.changeTimeType = this.changeTimeType.bind(this);
   }
+  shouldComponentUpdate(nextProps, nextState){
+    return nextProps.data == this.props.data;
+  }
   /**
    * 变更时间类型
    */
