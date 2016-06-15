@@ -9,7 +9,7 @@ var { ChartCanvas, Chart, EventCapture } = ReStock;
 
 var { BarSeries, LineSeries, AreaSeries, ScatterSeries, CircleMarker } = ReStock.series;
 var { financeEODDiscontiniousScale } = ReStock.scale;
-
+var { EdgeIndicator } = ReStock.coordinates;
 var { MouseCoordinates } = ReStock.coordinates;
 
 var { TooltipContainer, OHLCTooltip } = ReStock.tooltip;
@@ -23,18 +23,19 @@ class LineAndScatterChart extends React.Component {
 		var {data, type, width} = this.props;
 		return (
 			<ChartCanvas width={width} height={400}
-					margin={{left: 70, right: 70, top:30, bottom: 30}} type={type}
+					margin={{left: 30, right: 70, top:10, bottom: 30}} type={type}
 					seriesName="MSFT"
 					data={data}
 					xAccessor={d => d.date} discontinous xScale={xScale}
-					xExtents={[new Date(2012, 0, 1), new Date(2012, 2, 2)]}>
+					xExtents={[data.slice(-50,-49)[0].date, data.slice(-1)[0].date]}>
 				<Chart id={1}
 						yExtents={d => [d.high, d.low]}
 						yMousePointerDisplayLocation="right" yMousePointerDisplayFormat={d3.format(".2f")} >
 					<XAxis axisAt="bottom" orient="bottom"/>
 					<YAxis axisAt="right" orient="right" ticks={5} />
 					<LineSeries yAccessor={d => d.close}/>
-
+          <EdgeIndicator itemType="last" orient="right" edgeAt="right"
+                         yAccessor={d => d.close} fill={d => d.close > d.open ? "#6BA583" : "#FF0000"}/>
 				</Chart>
 				<MouseCoordinates xDisplayFormat={d3.time.format("%Y-%m-%d")} />
 				<EventCapture mouseMove={true} zoom={true} pan={true} />

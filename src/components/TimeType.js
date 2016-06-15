@@ -17,14 +17,39 @@ class TimeType extends React.Component {
   }
   render() {
     const style = {
-      margin: 12
+      li:{
+        width:'10.83%',
+        background:'#919191',
+        overflow:'hidden',
+        height:30,
+        float:'left',
+        'line-height':30,
+        border:'1 solid #6e6e6e',
+        'border-left':'none',
+        color:'#e5e5e5',
+        'font-size':'10px',
+        'text-align':'center'
+      },
+      'liActiv':{
+        width:'10.83%',
+        background:'#404040',
+        overflow:'hidden',
+        height:30,
+        float:'left',
+        'line-height':30,
+        border:'1 solid #6e6e6e',
+        'border-left':'none',
+        color:'#e5e5e5',
+        'font-size':'10px',
+        'text-align':'center'
+      }
     };
 
 
       if (this.props.timeType != this.props.name ) {
-        return <RaisedButton onClick={this.changeTimeType} label={this.props.name} primary={true} style={style}/>
+        return <li onClick={this.changeTimeType}  style={style.li}>{this.props.name}</li>
       }else{
-        return <RaisedButton  label={this.props.name} disabled={true} style={style}/>
+        return <li   style={style.liActiv}>{this.props.name}</li>
       }
 
   }

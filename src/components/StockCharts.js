@@ -4,6 +4,8 @@
 import React from 'react';
 import RefreshIndicator from 'material-ui/RefreshIndicator';
 import CandleStickChartWithEdge from '../lib/charts/CandleStickChartWithEdge';
+import LineAndScatterChart from '../lib/charts/LineAndScatterChart';
+
 import TimeType from './TimeType';
 //import TimeTypeGroup from './TimeTypeGroup';
 import StockChecked from './StockChecked';
@@ -20,6 +22,7 @@ class StockCharts extends React.Component{
     this.changeState = this.changeState.bind(this);
     this.changeStock = this.changeStock.bind(this);
     this.changeTimeType = this.changeTimeType.bind(this);
+    this.setData = this.setData.bind(this);
   }
 
   /**
@@ -67,10 +70,16 @@ class StockCharts extends React.Component{
       }.bind(this));
     }
   }
+
+  /**
+   * 异步操作获取数据
+   */
   setData(){
+    let url = './data/'+this.state.checkedStock + '-'+this.state.timeType + '.tsv';
 
     //* 设置数据
-    d3.tsv('./data/MSFT.tsv', function(err, data) {
+    //d3.tsv('./data/MSFT.tsv', function(err, data) {
+    d3.tsv(url, function(err, data) {
       data.forEach((d, i) => {
         d.date = new Date(parseDate(d.date).getTime());
         d.open = +d.open;
@@ -103,6 +112,34 @@ class StockCharts extends React.Component{
     eval('state.'+ key +' = "'+value+'";');
     this.setState(state);
   }
+
+  /**
+   * 获得K线主体部分
+   * 主要处理不同的K线显示问题
+   */
+  getContent(){
+    if(this.state.data.length ==0){
+      const refresh = {
+          display: 'inline-block',
+          position: 'relative'
+        };
+      return <RefreshIndicator
+        size={50}
+        left={70}
+        top={0}
+        loadingColor={"#FF9800"}
+        status="loading"
+        style={refresh}
+      />
+    }else{
+      if(this.state.timeType == 'F1'){//分时点状线
+        return  <LineAndScatterChart data={this.state.data} type="hybrid"/>
+      }else{
+        return  <CandleStickChartWithEdge data={this.state.data} type="hybrid"/>
+      }
+
+    }
+  }
   render(){
     console.log('StockCharts执行一次');
     let timeTypes = ['F1','M1'].map(timeType=>{
@@ -112,34 +149,14 @@ class StockCharts extends React.Component{
       return <StockChecked key={x} stock={x} checkedStock={this.state.checkedStock}
                            changeStock={this.changeStock}/>
     });
-    let content;
-    if(this.state.data.length ==0){
-      const style = {
-        container: {
-          position: 'relative'
-        },
-        refresh: {
-          display: 'inline-block',
-          position: 'relative'
-        }
-      };
-      content = <RefreshIndicator
-        size={50}
-        left={70}
-        top={0}
-        loadingColor={"#FF9800"}
-        status="loading"
-        style={style.refresh}
-      />
-    }else{
-      content =  <CandleStickChartWithEdge data={this.state.data} type="hybrid"/>
-    }
+    let content = this.getContent();
 
+    let style = {navTab: {margin:0, padding:0, 'list-style':'none'}}
 
     return <div>
       <div>{products}</div>
       <div>{this.state.checkedStock}</div>
-      <div>{timeTypes}</div>
+      <div style={{height:30}}><ul style={style.navTab}>{timeTypes}</ul></div>
       <div>{content}</div>
     </div>
   }
