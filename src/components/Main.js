@@ -10,19 +10,16 @@ import CandleStickChartWithEdge from '../lib/charts/CandleStickChartWithEdge';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    console.log('this.props.data');
-    console.log(this.props.data);
-    console.log('this.props.data');
   }
 
 
   render() {
-    let products = ['白银', '原油'];
+    
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <div>
           <Head />
-          <Body  data={this.props.data} products={products}  />
+          <Body/>
 
           <Foot />
         </div>

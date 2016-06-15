@@ -5,7 +5,7 @@ import React from 'react';
 import Divider from 'material-ui/Divider';
 
 import GoodsBox from './GoodsBox';
-import StockChecked from './StockChecked';
+
 import StockCharts from './StockCharts';
 import feed from './Feed';
 import GoodGroup from './GoodGroup';
@@ -15,27 +15,21 @@ var parseDate = d3.time.format('%Y-%m-%d').parse ;
 class Body extends React.Component {
   constructor(props) {
     super(props);
+    let products = ['白银', '原油'];
+    var stocks = {};
+    var last = {};
+
+    this.state = {products:products,stocks: stocks,last:last};
+
     this.watchStock = this.watchStock.bind(this);
     this.unwatchStock = this.unwatchStock.bind(this);
     this.changeState = this.changeState.bind(this);
-    this.setData = this.setData.bind(this);
-
-
-
-
-
-
   }
   componentWillMount () {
     //feed.watch(['MCD', 'BA',  'LLY', 'GM', 'GE', 'UAL', 'WMT', 'AAL', 'JPM']);
-    feed.watch(this.props.products);
-    var stocks = {};
-    let checkedStock = this.props.products[0];//这里还是做个区别，这里是选择产品K线图
-    var data = this.props.data;
-    this.setState({stocks: stocks, checkedStock: checkedStock,timeType:'F1', data: data });
+    feed.watch(this.state.products);
   }
   componentDidMount() {
-
     feed.onChange(function (stock) {
       let state = this.state;
       state.stocks[stock.symbol] = stock;
@@ -80,13 +74,6 @@ class Body extends React.Component {
     state.stocks = stocks;
     this.setState(state);
   }
-
-  /**
-   * 设置数据
-   */
-  setData(data){
-    this.changeState('data',data);
-  }
   /**
    * 更新数据
    */
@@ -96,10 +83,7 @@ class Body extends React.Component {
   render() {
     console.log('body  中this.state');
     console.log(this.state);
-    let products = this.props.products.map(x=> {
-      return <StockChecked key={x} stock={x} checkedStock={this.state.checkedStock}
-                           changeState={this.changeState}/>
-    });
+
 
     return <div>
       <GoodsBox stocks={this.state.stocks} last={this.state.last}/>
@@ -112,17 +96,10 @@ class Body extends React.Component {
         <GoodGroup />
         <GoodGroup />
       </div>
-      <div>
-        {products}
-      </div>
       <StockCharts
         stocks={this.state.stocks}
         last={this.state.last}
-        checkedStock={this.state.checkedStock}
-        data={this.props.data}
-        timeType={this.state.timeType}
-        changeState={this.changeState}
-        setData = {this.setData}
+        products={this.state.products}
       />
     </div>
 

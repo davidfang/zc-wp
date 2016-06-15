@@ -14,7 +14,7 @@ class StockChecked extends React.Component {
    * 选择股票图
    */
   changeStockCharts() {
-    this.props.changeState('checkedStock',this.props.stock);
+    this.props.changeStock(this.props.stock);
   }
   render() {
     const style = {

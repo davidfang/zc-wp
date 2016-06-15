@@ -27,10 +27,9 @@ var { fitWidth } = ReStock.helper;
 var xScale = financeEODDiscontiniousScale();
 
 class CandleStickChartWithEdge extends React.Component {
-	render() {
+  render() {
 		var { data, type, width } = this.props;
-
-
+    console.log('CandleStickChartWithEdge图执行一次')
 		/*
 			Q. Why does the rule of xScale not apply for these calculators?
 			A. Because changing only the calculator array is not considered as a trigger to
