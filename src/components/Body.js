@@ -34,7 +34,7 @@ class Body extends React.Component {
       let state = this.state;
       state.stocks[stock.symbol] = stock;
       let d = {};
-      d.date = new Date(parseDate(stock.date).getTime());
+      d.date = stock.date;//new Date(parseDate(stock.date).getTime());
       d.open = +stock.open;
       d.high = +stock.high;
       d.low = +stock.low;

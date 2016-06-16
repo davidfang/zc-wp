@@ -54,7 +54,7 @@ class StockCharts extends React.Component{
           let state = this.state;
           let stock = nextProps.last;
           let d = {};
-          d.date = new Date(parseDate(stock.date).getTime());
+          d.date = new Date(stock.date);//new Date(parseDate(stock.date).getTime());
           d.open = +stock.open;
           d.high = +stock.high;
           d.low = +stock.low;

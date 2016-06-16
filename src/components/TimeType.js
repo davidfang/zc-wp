@@ -18,8 +18,8 @@ class TimeType extends React.Component {
   render() {
     const style = {
       li:{
-        width:'10.83%',
-        background:'#919191',
+        width:'30%',
+        background:'#404040',
         overflow:'hidden',
         height:30,
         float:'left',
@@ -31,8 +31,8 @@ class TimeType extends React.Component {
         'text-align':'center'
       },
       'liActiv':{
-        width:'10.83%',
-        background:'#404040',
+        width:'30%',
+        background:'#919191',
         overflow:'hidden',
         height:30,
         float:'left',

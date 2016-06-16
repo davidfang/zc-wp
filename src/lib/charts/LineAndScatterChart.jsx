@@ -27,11 +27,11 @@ class LineAndScatterChart extends React.Component {
 					seriesName="MSFT"
 					data={data}
 					xAccessor={d => d.date} discontinous xScale={xScale}
-					xExtents={[data.slice(-50,-49)[0].date, data.slice(-1)[0].date]}>
+					xExtents={[data.slice(-30,-29)[0].date, data.slice(-1)[0].date]}>
 				<Chart id={1}
 						yExtents={d => [d.high, d.low]}
 						yMousePointerDisplayLocation="right" yMousePointerDisplayFormat={d3.format(".2f")} >
-					<XAxis axisAt="bottom" orient="bottom"/>
+					<XAxis axisAt="bottom" orient="bottom"  ticks={5} />
 					<YAxis axisAt="right" orient="right" ticks={5} />
 					<LineSeries yAccessor={d => d.close}/>
           <EdgeIndicator itemType="last" orient="right" edgeAt="right"

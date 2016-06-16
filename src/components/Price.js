@@ -38,7 +38,7 @@ class Price extends React.Component {
       lastStyle = styles.down;
       icon = 'trending_down';
       iconStyle = styles.iconDown;
-    } else if (this.props.stock.change > 0) {
+    } else if (this.props.stock.change >= 0) {
       lastStyle = styles.up;
       icon = 'trending_up';
       iconStyle = styles.iconUp;
