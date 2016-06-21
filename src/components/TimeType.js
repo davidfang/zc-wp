@@ -23,12 +23,12 @@ class TimeType extends React.Component {
         overflow:'hidden',
         height:30,
         float:'left',
-        'line-height':30,
+        lineHeight:30,
         border:'1 solid #6e6e6e',
-        'border-left':'none',
+        borderLeft:'none',
         color:'#e5e5e5',
-        'font-size':'10px',
-        'text-align':'center'
+        fontSize:'10px',
+        textAlign:'center'
       },
       'liActiv':{
         width:'30%',
@@ -36,12 +36,12 @@ class TimeType extends React.Component {
         overflow:'hidden',
         height:30,
         float:'left',
-        'line-height':30,
+        lineHeight:30,
         border:'1 solid #6e6e6e',
-        'border-left':'none',
+        borderLeft:'none',
         color:'#e5e5e5',
-        'font-size':'10px',
-        'text-align':'center'
+        fontSize:'10px',
+        textAlign:'center'
       }
     };
 

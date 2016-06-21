@@ -58,7 +58,9 @@ class CandleStickChartWithEdge extends React.Component {
 			.source(d => d.volume)
 			.merge((d, c) => {d.smaVolume50 = c})
 			.accessor(d => d.smaVolume50);
-    //console.log(data.slice(-50,-49));
+    //console.log('data.slice(-50,-49)');
+    //console.log(data);
+    //console.log(data.slice(-30,-29));
 		return (
 			<ChartCanvas width={width} height={400}
 					margin={{left: 50, right: 80, top:10, bottom: 30}} type={type}
@@ -66,7 +68,7 @@ class CandleStickChartWithEdge extends React.Component {
 					data={data} calculator={[ema20, ema50, smaVolume50]}
 					allowedIntervals={["D", "W", "M"]}
 					xAccessor={d => d.date} discontinous xScale={xScale}
-          xExtents={[data.slice(-50,-49)[0].date, data.slice(-1)[0].date]}
+          xExtents={[data.slice(-30,-29)[0].date, data.slice(-1)[0].date]}
       >
 				<Chart id={1}
 						yExtents={[d => [d.high, d.low], ema20.accessor(), ema50.accessor()]}

@@ -10,7 +10,7 @@ import TimeType from './TimeType';
 //import TimeTypeGroup from './TimeTypeGroup';
 import StockChecked from './StockChecked';
 var d3 = require('d3');
-var parseDate = d3.time.format('%Y-%m-%d').parse ;
+var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse ;
 class StockCharts extends React.Component{
   constructor(props) {
     super(props);
@@ -75,9 +75,28 @@ class StockCharts extends React.Component{
    * 异步操作获取数据
    */
   setData(){
-    let url = './data/'+this.state.checkedStock + '-'+this.state.timeType + '.tsv';
+    let  stock;
+    if(this.state.checkedStock == '白银') {
+      stock = 'sliver';
+    }if(this.state.checkedStock == '原油') {
+      stock = 'crude';
+    }
 
-    //* 设置数据
+    let time = this.state.timeType == 'F1'?'now':this.state.timeType;
+    let url = '//a-zc-wp.php/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
+    if(time == 'now') {
+      var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
+      //var parseDate = d3.time.format('%Y-%m-%d').parse;
+    }else if(time == 'M1') {
+      var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
+    }/*else if(time == 'M5') {
+      var parseDate = d3.time.format('%Y-%m-%d %H:%M').parse;
+    }else if(time == 'M15') {
+      var parseDate = d3.time.format('%Y-%m-%d %H:%M').parse;
+    }*/
+    // 设置数据
+     //let url = './data/'+this.state.checkedStock + '-'+this.state.timeType + '.tsv';
+    //var parseDate = d3.time.format('%Y-%m-%d').parse;
     //d3.tsv('./data/MSFT.tsv', function(err, data) {
     d3.tsv(url, function(err, data) {
       data.forEach((d, i) => {
@@ -89,9 +108,9 @@ class StockCharts extends React.Component{
         d.volume = +d.volume;
         // console.log(d);
       });
-      console.log('异步加载data');
-      console.log(data);
-      console.log('异步加载data');
+      //console.log('异步加载data');
+      //console.log(data);
+      //console.log('异步加载data');
       this.setState({data:data});
     }.bind(this));
   }
@@ -141,7 +160,7 @@ class StockCharts extends React.Component{
     }
   }
   render(){
-    console.log('StockCharts执行一次');
+    //console.log('StockCharts执行一次');
     let timeTypes = ['F1','M1'].map(timeType=>{
       return <TimeType key={timeType} name={timeType}  timeType={this.state.timeType} changeTimeType={this.changeTimeType} />
     });
@@ -151,7 +170,7 @@ class StockCharts extends React.Component{
     });
     let content = this.getContent();
 
-    let style = {navTab: {margin:0, padding:0, 'list-style':'none'}}
+    let style = {navTab: {margin:0, padding:0, 'listStyle':'none'}}
 
     return <div>
       <div>{products}</div>

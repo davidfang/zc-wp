@@ -11,12 +11,17 @@ import feed from './Feed';
 import GoodGroup from './GoodGroup';
 
 var d3 = require('d3');
-var parseDate = d3.time.format('%Y-%m-%d').parse ;
+var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse ;
 class Body extends React.Component {
   constructor(props) {
     super(props);
     let products = ['白银', '原油'];
-    var stocks = {};
+    var stocks = {'白银':{
+      symbol: "白银", open: 0, close: 0, high: 0, low: 0,change: 0
+    },
+      '原油':{
+        symbol: "白银", open: 0, close: 0, high: 0, low: 0,change: 0
+      }};
     var last = {};
 
     this.state = {products:products,stocks: stocks,last:last};
@@ -24,6 +29,12 @@ class Body extends React.Component {
     this.watchStock = this.watchStock.bind(this);
     this.unwatchStock = this.unwatchStock.bind(this);
     this.changeState = this.changeState.bind(this);
+
+
+
+
+
+
   }
   componentWillMount () {
     //feed.watch(['MCD', 'BA',  'LLY', 'GM', 'GE', 'UAL', 'WMT', 'AAL', 'JPM']);
@@ -34,7 +45,7 @@ class Body extends React.Component {
       let state = this.state;
       state.stocks[stock.symbol] = stock;
       let d = {};
-      d.date = stock.date;//new Date(parseDate(stock.date).getTime());
+      d.date = new Date(parseDate(stock.date).getTime());//stock.date;//
       d.open = +stock.open;
       d.high = +stock.high;
       d.low = +stock.low;
@@ -44,11 +55,14 @@ class Body extends React.Component {
       state.last = stock;
       //data =>{}
       this.setState(state);
+      //console.log('feedfeedfeedfeedfeedfeed');
       //console.log(stock);
     }.bind(this));
 
   }
-
+  /*componentWillUnmount(){
+    console.log("goodbye cruel world!");
+  }*/
   /**
    * 修改state值
    * @param key
@@ -81,8 +95,8 @@ class Body extends React.Component {
 
   }
   render() {
-    console.log('body  中this.state');
-    console.log(this.state);
+    //console.log('body  中this.state');
+    //console.log(this.state);
 
 
     return <div>

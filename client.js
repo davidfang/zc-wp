@@ -78,7 +78,7 @@ function generateData (client,lastHash,realTimeHash) {
       stock.date, "volume",
       stock.volume
     ];
-
+    //将股票当前信息定入
     client.hmset(lastHash, last, function (err, res) {
       if (err) {
         console.log('插入股票最后信息里错误');
@@ -88,12 +88,24 @@ function generateData (client,lastHash,realTimeHash) {
     });//写入股票当前价格信息
 
     //写入分时K线所需要的数据
-    var realTimeName = realTimeHash + '-s1';//1秒数据集
+    var realTimeName = realTimeHash + '-now';//1秒数据集
     var time = currentTime(now);
     insertRealTime(client, realTimeName, stock, time);//插入数据
     //写入分时K线所需要的数据
     var realTimeName = realTimeHash + '-M1';//1分钟数据集
     var time = currentTime(now,1);
+    insertRealTime(client, realTimeName, stock, time);//插入数据
+  //写入分时K线所需要的数据
+    var realTimeName = realTimeHash + '-M5';//5分钟数据集
+    var time = currentTime(now,5);
+    insertRealTime(client, realTimeName, stock, time);//插入数据
+  //写入分时K线所需要的数据
+    var realTimeName = realTimeHash + '-M15';//15分钟数据集
+    var time = currentTime(now,15);
+    insertRealTime(client, realTimeName, stock, time);//插入数据
+  //写入分时K线所需要的数据
+    var realTimeName = realTimeHash + '-H1';//1分钟数据集
+    var time = currentTime(now,null,1);
     insertRealTime(client, realTimeName, stock, time);//插入数据
 
     console.log(stock.open + ' ,' + stock.high + '  ,' + stock.low + ' ,' + stock.close + ' ,' + stock.change + ' ,' + stock.volume + ' ,' + stock.date);
@@ -109,22 +121,29 @@ function generateData (client,lastHash,realTimeHash) {
  * 注意 不同time的要存放到对应的realTimeName 数据集里面
  */
 function insertRealTime(client, realTimeName, stock, time) { //
-  client.hmget(realTimeName, time, function (err, res) {//先获取最新的数据比对
+  client.hget(realTimeName, time, function (err, res) {//先获取最新的数据比对
     if (err) {
       console.log('查询股票分时信息里时错误');
       console.log(err.toString());
       return process.exit(5);
     }
-    if (res[0] == null) {//第一次查不到数据的时候先将这个数据插进去
-      client.hmset(realTimeName, time, JSON.stringify(stock), function (err, res) {
+    if (res == null) {//第一次查不到数据的时候先将这个数据插进去
+      //最新价格格式为：date	open	high	low	close	volume	adjclose
+      var newStock = [
+        stock.date,stock.open,stock.high	,stock.low	,stock.close	,stock.volume	//,stock.adjclose
+      ];
+
+      //client.hmset(realTimeName, time, JSON.stringify(stock), function (err, res) {
+      client.hmset(realTimeName, time, newStock.join('\t'), function (err, res) {
         if (err) {
           console.log('插入股票分时信息里时错误');
           console.log(err.toString());
           return process.exit(4);
         }
       });
+      client.zadd(realTimeName+'-zset', (new Date()).valueOf(),time);
     } else {//查到数据的情况下，要跟老数据比对，处理完再插进去
-      var oldStock = JSON.parse(res);
+      /*var oldStock = JSON.parse(res);
 
       //最高价
       oldStock.high = stock.high > oldStock.high ? stock.high : oldStock.high;
@@ -135,11 +154,26 @@ function insertRealTime(client, realTimeName, stock, time) { //
       oldStock.volume = 0 + oldStock.volume + stock.volume;//成交量
       //插入最新的数据
       client.hmset(realTimeName, time, JSON.stringify(oldStock), function (err, res) {
+      */
+      //console.log(res);
+      var oldStock = res.split('\t');
+      //最新价格格式为：date	open	high	low	close	volume	adjclose
+
+      //最高价
+      oldStock[2] = stock.high > oldStock[2] ? stock.high : oldStock[2];
+      //最低价
+      oldStock[3] = stock.low < oldStock[3] ? stock.low : oldStock[3];
+      oldStock[4] = stock.close;//收盘价
+      //oldStock.change = Math.floor((oldStock.close - oldStock.open)*100)/100;//变动值
+      oldStock[5] = parseInt(oldStock[5]) + stock.volume;//成交量
+      //插入最新的数据
+      client.hmset(realTimeName, time, oldStock.join('\t'), function (err, res) {
         if (err) {
           console.log('插入股票分时信息里时错误');
           console.log(err.toString());
           return process.exit(5);
         }
+        client.zadd(realTimeName+'-zset',(new Date()).valueOf(), time);
       });
     }
   });
