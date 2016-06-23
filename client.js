@@ -41,7 +41,7 @@ function generateData (client,lastHash,realTimeHash) {
     //console.log(res);
     //console.log(res.close);
     var stock = {};//股票当前价格信息
-    var maxChange = res.close * 0.001;//每次波动最多万分之五
+    var maxChange = res.close * 0.00001;//每次波动最多万分之五
     stock.open = +res.close + maxChange * (1 - Math.random() * 2);//生成正负的随机波动值
     stock.close = +res.close + maxChange * (1 - Math.random() * 2);//生成正负的随机波动值
     stock.high = +res.close + maxChange * (1 - Math.random() * 2);//生成正负的随机波动值
