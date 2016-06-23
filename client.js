@@ -6,7 +6,7 @@ db.redis(function (err, client) {
     return process.exit(1);
   }
 
-  console.log('open , high , low , close  ,change ,volume ,date');
+  //console.log('open , high , low , close  ,change ,volume ,date');
   setInterval(function(){
     generateData (client,'sliver-last','sliver-realTime');
     generateData (client,'crude-last','crude-realTime')
@@ -30,11 +30,13 @@ function generateData (client,lastHash,realTimeHash) {
     var now = new Date();
     if (res == null) {//初始化数据
       var startLast = {'open': 25, 'close': 24, 'high': 25.5, 'low': 23.5, 'volume': 243090, date: currentTime(now)};
-      //var startLast = {'open': 55, 'close': 54, 'high': 55.5, 'low': 53.5, 'volume': 243090, date: currentTime(now)};
-      client.hmset(lastHash, startLast, client.print);
+      client.hmset('sliver-last', startLast, client.print);
+      var startLast = {'open': 55, 'close': 54, 'high': 55.5, 'low': 53.5, 'volume': 243090, date: currentTime(now)};
+      client.hmset('crude-last', startLast, client.print);
       console.log('startLast:');
-      console.log(startLast);
-      return process.exit(2);
+	return ;
+      //console.log(startLast);
+      //return process.exit(2);
     }
     //console.log(res);
     //console.log(res.close);
@@ -108,7 +110,7 @@ function generateData (client,lastHash,realTimeHash) {
     var time = currentTime(now,null,1);
     insertRealTime(client, realTimeName, stock, time);//插入数据
 
-    console.log(stock.open + ' ,' + stock.high + '  ,' + stock.low + ' ,' + stock.close + ' ,' + stock.change + ' ,' + stock.volume + ' ,' + stock.date);
+    //console.log(stock.open + ' ,' + stock.high + '  ,' + stock.low + ' ,' + stock.close + ' ,' + stock.change + ' ,' + stock.volume + ' ,' + stock.date);
     //return process.exit(2);
   })
 }
@@ -244,3 +246,53 @@ function currentTime(now , m, h, d , mh, y) {
   clock += ss;
   return (clock);
 }
+
+
+//var express = require('express'),
+//  app = express(),
+//  path = require('path'),
+//  http = require('http').Server(app),
+var io = require('socket.io')(8080),
+  feed = require('./feed');
+
+//app.use(express.static(path.join(__dirname, './src')));
+
+io.on('connection', function (socket) {
+  console.log('用户连接成功 Socket id %s', socket.id);
+  socket.on('join', function (rooms) {
+    console.log('Socket %s 用户加入 to %s', socket.id, rooms);
+    if (Array.isArray(rooms)) {
+      rooms.forEach(function(room) {
+        socket.join(room);
+      });
+    } else {
+      socket.join(rooms);
+    }
+  });
+
+  socket.on('leave', function (rooms) {
+    console.log('Socket %s 用户离开 from %s', socket.id, rooms);
+    if (Array.isArray(rooms)) {
+      rooms.forEach(function(room) {
+        socket.leave(room);
+      });
+    } else {
+      socket.leave(rooms);
+    }
+  });
+
+  socket.on('disconnect', function () {
+    //console.log('User disconnected. %s. Socket id %s', socket.id);
+    console.log('用户失去连接. %s. Socket id %s', socket.id);
+  });
+});
+
+feed.start(function(room, type, message) {
+  io.to(room).emit(type, message);
+  //console.log(room, type);
+});
+
+
+/*http.listen(3000, function () {
+ console.log('listening on: 3000');
+ });*/

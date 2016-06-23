@@ -3,7 +3,8 @@ var redis = require('redis');
 function Database() {
   var self = this;
 
-  self._redis_host = 'localhost';
+  //self._redis_host = 'localhost';
+  self._redis_host = 'redis';
   self._redis_port = 6379;
   self._redis_db = 2;
 
