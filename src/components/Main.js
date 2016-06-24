@@ -14,14 +14,13 @@ class Main extends React.Component {
 
 
   render() {
-    
+
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
         <div>
           <Head />
-          <Body/>
-
-          <Foot />
+          {this.props.children}
+          <Foot location={this.props.location} />
         </div>
       </MuiThemeProvider>
     );

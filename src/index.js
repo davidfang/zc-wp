@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route, Link,IndexRoute ,browserHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Main from './components/Main';
+import Body from './components/Body';
+import Ucenter from './components/Ucenter';
+import News from './components/News';
+import Help from './components/Help';
 injectTapEventPlugin();
 
 
@@ -19,4 +24,14 @@ d3.tsv('./data/MSFT.tsv', function(err, data) {
   });
   ReactDOM.render(<Main data={data} />, document.getElementById('app'));
 });*/
-ReactDOM.render(<Main  />, document.getElementById('app'));
+//ReactDOM.render(<Main  />, document.getElementById('app'));
+ReactDOM.render((
+  <Router history={browserHistory}>
+    <Route path="/" component={Main}>
+      <IndexRoute component={Body} />
+      <Route path="ucenter" component={Ucenter} />
+      <Route path="news" component={News} />
+      <Route path="help" component={Help} />
+    </Route>
+  </Router>
+), document.getElementById('app'))
