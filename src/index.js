@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link,IndexRoute ,browserHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import SignIn from './components/SignIn';
+import Login from './components/Login';
 import Main from './components/Main';
 import Body from './components/Body';
 import Ucenter from './components/Ucenter';
@@ -33,5 +35,6 @@ ReactDOM.render((
       <Route path="news" component={News} />
       <Route path="help" component={Help} />
     </Route>
+    <Route path="/SignIn" component={SignIn} />
   </Router>
 ), document.getElementById('app'))
