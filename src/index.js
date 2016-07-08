@@ -12,6 +12,7 @@ import Help from './components/Help';
 injectTapEventPlugin();
 
 
+
 /*var d3 = require('d3');
 var parseDate = d3.time.format('%Y-%m-%d').parse ;
 d3.tsv('./data/MSFT.tsv', function(err, data) {

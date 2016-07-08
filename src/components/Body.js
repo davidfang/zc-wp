@@ -9,7 +9,6 @@ import GoodsBox from './GoodsBox';
 import StockCharts from './StockCharts';
 import feed from './Feed';
 import GoodGroup from './GoodGroup';
-
 var d3 = require('d3');
 var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse ;
 class Body extends React.Component {
