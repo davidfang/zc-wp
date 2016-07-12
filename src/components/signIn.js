@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import {apiHost} from './Global';
+var config = require('config').default;
 var d3 = require('d3');
 //var API_HOST = 'http://api.dev'
 class SignIn extends React.Component {
@@ -21,7 +21,7 @@ class SignIn extends React.Component {
     let mobile = this.state.mobile;
     var reg = /^1[3|4|5|7|8][0-9]{9}$/; //验证规则
     if(reg.test(mobile)){//获取手机验证码
-        let url = apiHost + '/v1/user/get-mobile-verification?mobile='+ mobile;
+        let url = config.apiHost + '/v1/user/get-mobile-verification?mobile='+ mobile;
         d3.json(url,function (result) {
           if(result.status){
 

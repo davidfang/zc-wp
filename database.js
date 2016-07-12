@@ -1,12 +1,15 @@
 var redis = require('redis');
-
+//var config = require('./src/config').default;
+var config = require('./devConfig');
+console.log(config);
+//import config from './src/config/dev';
 function Database() {
   var self = this;
 
   //self._redis_host = 'localhost';
-  self._redis_host = 'redis';
-  self._redis_port = 6379;
-  self._redis_db = 2;
+  self._redis_host = config.redis.host;
+  self._redis_port = config.redis.port;
+  self._redis_db = config.redis.db;
 
   self._redis = null;
   self._redis_selected = false;

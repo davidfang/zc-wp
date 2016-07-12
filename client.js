@@ -252,7 +252,8 @@ function currentTime(now , m, h, d , mh, y) {
 //  app = express(),
 //  path = require('path'),
 //  http = require('http').Server(app),
-var io = require('socket.io')(8080),
+var config = require('./devConfig');
+var io = require('socket.io')(config.socketPort),
   feed = require('./feed');
 
 //app.use(express.static(path.join(__dirname, './src')));
@@ -289,7 +290,7 @@ io.on('connection', function (socket) {
 
 feed.start(function(room, type, message) {
   io.to(room).emit(type, message);
-  //console.log(room, type);
+  //console.log(room, type,message);
 });
 
 

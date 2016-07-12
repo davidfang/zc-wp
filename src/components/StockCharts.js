@@ -9,7 +9,7 @@ import LineAndScatterChart from '../lib/charts/LineAndScatterChart';
 import TimeType from './TimeType';
 //import TimeTypeGroup from './TimeTypeGroup';
 import StockChecked from './StockChecked';
-import {apiHost} from './Global';
+var config = require('config').default;
 var d3 = require('d3');
 var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse ;
 class StockCharts extends React.Component{
@@ -86,7 +86,7 @@ class StockCharts extends React.Component{
     let time = this.state.timeType == 'F1'?'now':this.state.timeType;
     //let url = '//a-zc-wp.php/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
     //let url = '//api.dev/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
-    let url = apiHost + '/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
+    let url = config.apiHost + '/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
     if(time == 'now') {
       var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
       //var parseDate = d3.time.format('%Y-%m-%d').parse;
