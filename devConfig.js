@@ -1,7 +1,7 @@
 'use strict';
 var config = {
   appEnv: 'dev',  // feel free to remove the appEnv property here
-  apiHost: 'http://api.dev',
+  apiHost: 'http://a-zc-wp.php',
   redis: {
     host: 'localhost',//'redis',
     port: 6379,
