@@ -2,13 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route, Link,IndexRoute ,browserHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import User from './components/User';
 import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import SignOut from './components/SignOut';
 import Login from './components/Login';
 import Main from './components/Main';
 import Body from './components/Body';
 import Ucenter from './components/Ucenter';
 import News from './components/News';
 import Help from './components/Help';
+import {hasLogin,requireAuth,noAuth} from './components/Auth';
 injectTapEventPlugin();
 
 
@@ -30,12 +34,17 @@ d3.tsv('./data/MSFT.tsv', function(err, data) {
 //ReactDOM.render(<Main  />, document.getElementById('app'));
 ReactDOM.render((
   <Router history={browserHistory}>
-    <Route path="/" component={Main}>
+    <Route onEnter={requireAuth} path="/" component={Main}>
       <IndexRoute component={Body} />
       <Route path="ucenter" component={Ucenter} />
       <Route path="news" component={News} />
       <Route path="help" component={Help} />
     </Route>
-    <Route path="/SignIn" component={SignIn} />
+    <Route  path="/user/" component={User} >
+      <IndexRoute onEnter={noAuth} component={SignUp} />
+    <Route onEnter={noAuth}  path="SignUp" component={SignUp} />
+    <Route onEnter={noAuth} path="SignIn" component={SignIn} />
+    <Route onEnter={requireAuth} path="SignOut" component={SignOut} />
+    </Route>
   </Router>
 ), document.getElementById('app'))

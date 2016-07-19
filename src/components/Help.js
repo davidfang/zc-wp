@@ -3,8 +3,9 @@
  */
 import React from 'react';
 
-class Help extends React.Component{
-  render(){
+class Help extends React.Component {
+  
+  render() {
     return <div>帮助中心</div>
   }
 }

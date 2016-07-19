@@ -8,24 +8,25 @@ class Countdown extends React.Component {
     super(props);
     //console.log('countdown.props.countDown:',this.props.countDown)
     //console.log('countdown.props.check:',this.props.check)
-    this.state = {check:this.props.check,countDown: this.props.countDown};
+    this.state = {check: this.props.check, countDown: this.props.countDown};
     //this._bind('autoChange');
     //console.log('Countdown.props:',this.props);
     this.getMobileVerification = this.getMobileVerification.bind(this);
   }
-  autoChange(){
+
+  autoChange() {
     var _self = this;
-    let tt = _self.state.countDown-1;
-    if(tt <= 0){
-      this.setState({check:true,countDown:this.props.maxTime});
+    let tt = _self.state.countDown - 1;
+    if (tt <= 0) {
+      this.setState({check: true, countDown: this.props.maxTime});
       clearInterval(tm);
       return;
     }
-    _self.setState({countDown : tt});
+    _self.setState({countDown: tt});
     // 自动更改
-    var tm = setTimeout(function(){
+    var tm = setTimeout(function () {
       _self.autoChange();
-    },1000);
+    }, 1000);
 
   }
 
@@ -35,9 +36,10 @@ class Countdown extends React.Component {
    */
   getMobileVerification() {
     //this.setState({countDown: 50});
-    this.props.getMobileVerification();
-    this.autoChange();
+    this.props.getMobileVerification();//获取手机验证码成功才倒计时
+        this.autoChange();
   }
+
 
   componentDidUpdate() {
     //console.log('componentDidUpdate:',this.props,this.state);
@@ -50,8 +52,6 @@ class Countdown extends React.Component {
   }
 
   render() {
-    console.log('Countdown:render():',this.state.check,this.props.check,this.props.countDown );
-
     if (this.props.check) {
       //if (this.props.countDown < config.countDown) {
       if (this.state.countDown < this.props.maxTime) {

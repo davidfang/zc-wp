@@ -10,32 +10,31 @@ import StockCharts from './StockCharts';
 import feed from './Feed';
 import GoodGroup from './GoodGroup';
 var d3 = require('d3');
-var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse ;
+var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
 class Body extends React.Component {
   constructor(props) {
     super(props);
     let products = ['白银', '原油'];
-    var stocks = {'白银':{
-      symbol: "白银", open: 0, close: 0, high: 0, low: 0,change: 0
-    },
-      '原油':{
-        symbol: "白银", open: 0, close: 0, high: 0, low: 0,change: 0
-      }};
+    var stocks = {
+      '白银': {
+        symbol: "白银", open: 0, close: 0, high: 0, low: 0, change: 0
+      },
+      '原油': {
+        symbol: "白银", open: 0, close: 0, high: 0, low: 0, change: 0
+      }
+    };
     var last = {};
 
-    this.state = {products:products,stocks: stocks,last:last};
+    this.state = {products: products, stocks: stocks, last: last};
 
     this.watchStock = this.watchStock.bind(this);
     this.unwatchStock = this.unwatchStock.bind(this);
     this.changeState = this.changeState.bind(this);
 
 
-
-
-
-
   }
-  componentWillMount () {
+
+  componentWillMount() {
     //feed.watch(['MCD', 'BA',  'LLY', 'GM', 'GE', 'UAL', 'WMT', 'AAL', 'JPM']);
     feed.watch(this.state.products);
   }
@@ -53,23 +52,30 @@ class Body extends React.Component {
       //state.data.push(d);
       state.last = stock;
       //data =>{}
-      this.setState(state);
+      if (!this.ignoreLastFetch) {
+        this.setState(state);
+      }
       //console.log('feedfeedfeedfeedfeedfeed');
       //console.log(stock);
     }.bind(this));
 
   }
-  /*componentWillUnmount(){
-    console.log("goodbye cruel world!");
-  }*/
+
+
+
+  componentWillUnmount () {
+    // 上面步骤四，在组件移除前忽略正在进行中的请求
+    this.ignoreLastFetch = true
+  }
+
   /**
    * 修改state值
    * @param key
    * @param value
-     */
-  changeState(key,value){
+   */
+  changeState(key, value) {
     let state = this.state;
-     eval('state.'+ key +' = "'+value+'";');
+    eval('state.' + key + ' = "' + value + '";');
     this.setState(state);
   }
 
@@ -87,12 +93,14 @@ class Body extends React.Component {
     state.stocks = stocks;
     this.setState(state);
   }
+
   /**
    * 更新数据
    */
-  changeData(){
+  changeData() {
 
   }
+
   render() {
     //console.log('body  中this.state');
     //console.log(this.state);
