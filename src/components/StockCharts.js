@@ -86,7 +86,8 @@ class StockCharts extends React.Component{
     let time = this.state.timeType == 'F1'?'now':this.state.timeType;
     //let url = '//a-zc-wp.php/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
     //let url = '//api.dev/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
-    let url = config.apiHost + '/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
+    let access_token=localStorage.getItem('access_token');
+    let url = config.apiHost + '/v1/data/index?access_token='+access_token+'&stock='+stock + '&time='+time;
     if(time == 'now') {
       var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
       //var parseDate = d3.time.format('%Y-%m-%d').parse;
