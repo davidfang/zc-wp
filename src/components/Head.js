@@ -7,11 +7,11 @@ import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
 
 import RaisedButton from 'material-ui/RaisedButton';
-
+var config = require('config').default;
 class Head extends React.Component{
   render(){
     return <AppBar
-      title="资金：9000元"
+      title={config.appName}
       iconElementLeft={<Avatar src="images/yeoman.png" />}
       iconElementRight={
         <RaisedButton label="充值" fullWidth={true} linkButton={true}  />

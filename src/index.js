@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, Link,IndexRoute ,browserHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+console.log('injectTapEventPlugin()',injectTapEventPlugin());
+import { Router, Route, Link,IndexRoute ,browserHistory } from 'react-router';
 import User from './components/User';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
@@ -13,7 +15,6 @@ import Ucenter from './components/Ucenter';
 import News from './components/News';
 import Help from './components/Help';
 import {hasLogin,requireAuth,noAuth} from './components/Auth';
-injectTapEventPlugin();
 
 
 
@@ -42,9 +43,9 @@ ReactDOM.render((
     </Route>
     <Route  path="/user/" component={User} >
       <IndexRoute onEnter={noAuth} component={SignUp} />
-    <Route onEnter={noAuth}  path="SignUp" component={SignUp} />
-    <Route onEnter={noAuth} path="SignIn" component={SignIn} />
-    <Route onEnter={requireAuth} path="SignOut" component={SignOut} />
+      <Route onEnter={noAuth}  path="SignUp" component={SignUp} />
+      <Route onEnter={noAuth} path="SignIn" component={SignIn} />
+      <Route onEnter={requireAuth} path="SignOut" component={SignOut} />
     </Route>
   </Router>
 ), document.getElementById('app'))

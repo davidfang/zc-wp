@@ -1,6 +1,7 @@
 'use strict';
 import baseConfig from './base';
 let config = {
+  appName:'牡丹园',
   appEnv: 'dev',  // feel free to remove the appEnv property here
   apiHost: 'http://a-zc-wp.php',
   redis: {
