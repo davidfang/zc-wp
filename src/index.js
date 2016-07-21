@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
-console.log('injectTapEventPlugin()',injectTapEventPlugin());
+
 import { Router, Route, Link,IndexRoute ,browserHistory } from 'react-router';
 import User from './components/User';
 import SignIn from './components/SignIn';
