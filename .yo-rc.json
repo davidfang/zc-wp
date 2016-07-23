@@ -1,0 +1,7 @@
+{
+  "generator-react-webpack": {
+    "appName": "testMaterialUi",
+    "style": "css",
+    "postcss": true
+  }
+}
