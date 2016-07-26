@@ -4,7 +4,9 @@
 import React from 'react';
 
 class Good extends React.Component{
-  
+  constructor(props) {
+    super(props);
+  }
   render(){
     let style = {
       height: 70

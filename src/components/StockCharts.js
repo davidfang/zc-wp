@@ -15,7 +15,7 @@ var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse ;
 class StockCharts extends React.Component{
   constructor(props) {
     super(props);
-    let checkedStock = this.props.products[0];//这里还是做个区别，这里是选择产品K线图
+    let checkedStock = this.props.goods[0];//这里还是做个区别，这里是选择产品K线图
     var data = {};
     let timeTypes = ['F1','M1']
     this.state = {data:[],checkedStock:checkedStock, timeType:'F1',timeTypes:timeTypes};
@@ -168,7 +168,7 @@ class StockCharts extends React.Component{
     let timeTypes = ['F1','M1'].map(timeType=>{
       return <TimeType key={timeType} name={timeType}  timeType={this.state.timeType} changeTimeType={this.changeTimeType} />
     });
-    let products = this.props.products.map(x=> {
+    let goods = this.props.goods.map(x=> {
       return <StockChecked key={x} stock={x} checkedStock={this.state.checkedStock}
                            changeStock={this.changeStock}/>
     });
@@ -177,7 +177,7 @@ class StockCharts extends React.Component{
     let style = {navTab: {margin:0, padding:0, 'listStyle':'none'}}
 
     return <div>
-      <div>{products}</div>
+      <div>{goods}</div>
       <div>{this.state.checkedStock}</div>
       <div style={{height:30}}><ul style={style.navTab}>{timeTypes}</ul></div>
       <div>{content}</div>

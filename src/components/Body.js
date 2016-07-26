@@ -11,21 +11,16 @@ import feed from './Feed';
 import GoodGroup from './GoodGroup';
 var d3 = require('d3');
 var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
+var config = require('config').default;
 class Body extends React.Component {
   constructor(props) {
     super(props);
-    let products = ['白银', '原油'];
-    var stocks = {
-      '白银': {
-        symbol: "白银", open: 0, close: 0, high: 0, low: 0, change: 0
-      },
-      '原油': {
-        symbol: "白银", open: 0, close: 0, high: 0, low: 0, change: 0
-      }
-    };
+    let goods = config.goods;
+    var stocks = config.stocks;
+
     var last = {};
 
-    this.state = {products: products, stocks: stocks, last: last};
+    this.state = {goods: goods, stocks: stocks, last: last};
 
     this.watchStock = this.watchStock.bind(this);
     this.unwatchStock = this.unwatchStock.bind(this);
@@ -36,11 +31,13 @@ class Body extends React.Component {
 
   componentWillMount() {
     //feed.watch(['MCD', 'BA',  'LLY', 'GM', 'GE', 'UAL', 'WMT', 'AAL', 'JPM']);
-    feed.watch(this.state.products);
+    feed.watch(this.state.goods);
   }
   componentDidMount() {
+
     feed.onChange(function (stock) {
       let state = this.state;
+      //let state = {stocks:{}};
       state.stocks[stock.symbol] = stock;
       let d = {};
       d.date = new Date(parseDate(stock.date).getTime());//stock.date;//
@@ -55,8 +52,8 @@ class Body extends React.Component {
       if (!this.ignoreLastFetch) {
         this.setState(state);
       }
-      //console.log('feedfeedfeedfeedfeedfeed');
-      //console.log(stock);
+      console.log('feedfeedfeedfeedfeedfeed');
+      console.log(stock);
     }.bind(this));
 
   }
@@ -104,23 +101,31 @@ class Body extends React.Component {
   render() {
     //console.log('body  中this.state');
     //console.log(this.state);
+    var goodsItems = config.goodsItem;
+
+
+    var items = [];
+    for(let item in goodsItems){
+      let v = goodsItems[item];
+      var stockOpen = this.state.stocks[item].open;
+      var stockClose = this.state.stocks[item].close;
+      for (let key in v){
+        let k = key+item;
+        items.push(<GoodGroup key={k} {...v[key]} stockOpen={stockOpen} stockClose={stockClose}/>);
+      }
+
+    }
 
 
     return <div>
       <GoodsBox stocks={this.state.stocks} last={this.state.last}/>
       <div>
-        <GoodGroup />
-        <GoodGroup />
-        <GoodGroup />
-        <Divider />
-        <GoodGroup />
-        <GoodGroup />
-        <GoodGroup />
+        {items}
       </div>
       <StockCharts
         stocks={this.state.stocks}
         last={this.state.last}
-        products={this.state.products}
+        goods={this.state.goods}
       />
     </div>
 
