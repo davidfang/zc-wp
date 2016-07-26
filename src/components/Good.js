@@ -4,6 +4,7 @@
 import React from 'react';
 
 class Good extends React.Component{
+  
   render(){
     let style = {
       height: 70

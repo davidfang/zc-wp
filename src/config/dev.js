@@ -4,6 +4,7 @@ let config = {
   appName:'牡丹园',
   appEnv: 'dev',  // feel free to remove the appEnv property here
   apiHost: 'http://a-zc-wp.php',
+  imgHost: 'http://localhost:8000',
   redis: {
     host: 'localhost',//'redis',
     port: 6379,

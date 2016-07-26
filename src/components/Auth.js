@@ -6,15 +6,12 @@ var config = require('config').default;
  * @returns {boolean}
  */
 function hasLogin(nextState, replace) {
-  console.log(sessionStorage.getItem('login'));
-  console.log('sessionStorage.getItem(login)');
-
   if (sessionStorage.getItem('login') == 'y') {
     return true;
   } else {
     if (localStorage.getItem('access-token') !== null) {
       // fetch(config.apiHost + '/v1/user/get-mobile-verification?');
-      var apiCall = apiGet('/v1/user/login', {'access_token': localStorage.getItem('access-token')});
+      var apiCall = apiGet('/v1/user/login', {});
       return apiCall.then(function (response) {
         return response.json();
       }).then(function (json) {
@@ -96,7 +93,8 @@ function noAuth(nextState, replace) {
 function apiGet(url, params) {
   var u = new URLSearchParams();
   //u.append('method', 'flickr.interestingness.getList');
-  u.append('api_key', '<insert api key here>');
+  //u.append('api_key', '<insert api key here>');
+  u.append('access_token', localStorage.getItem('access-token'));
   u.append('format', 'json');
   u.append('nojsoncallback', '1');
 
