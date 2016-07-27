@@ -9,9 +9,11 @@ import GoodsBox from './GoodsBox';
 import StockCharts from './StockCharts';
 import feed from './Feed';
 import GoodGroup from './GoodGroup';
+import {apiGet} from './Auth';
 var d3 = require('d3');
 var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
 var config = require('config').default;
+
 class Body extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +34,28 @@ class Body extends React.Component {
   componentWillMount() {
     //feed.watch(['MCD', 'BA',  'LLY', 'GM', 'GE', 'UAL', 'WMT', 'AAL', 'JPM']);
     feed.watch(this.state.goods);
+
+    if (localStorage.getItem('goodsItems') == null) {//没有产品信息时
+      var apiCall = apiGet('/v1/transaction/get-goods-items',{});
+
+      apiCall.then(function (response) {
+        return response.json();
+      }).then(function (json) {
+        console.log(json);
+        if (json.status) {
+          console.log('成功');
+          this.setState({goodsItems: json.data.goods_items});
+          localStorage.setItem('goodsItems',JSON.stringify(json.data.goods_items));
+          return true;
+        } else {
+          console.log('get goodsItem失败');
+          this.setState({goodsItems:config.goodsItem});
+          return false;
+        }
+      }.bind(this));
+    }else{
+      this.setState({goodsItems: JSON.parse(localStorage.getItem('goodsItems'))});
+    }
   }
   componentDidMount() {
 
@@ -52,8 +76,8 @@ class Body extends React.Component {
       if (!this.ignoreLastFetch) {
         this.setState(state);
       }
-      console.log('feedfeedfeedfeedfeedfeed');
-      console.log(stock);
+      //console.log('feedfeedfeedfeedfeedfeed');
+      //console.log(stock);
     }.bind(this));
 
   }
@@ -101,7 +125,8 @@ class Body extends React.Component {
   render() {
     //console.log('body  中this.state');
     //console.log(this.state);
-    var goodsItems = config.goodsItem;
+    //var goodsItems = config.goodsItem;
+    var goodsItems = this.state.goodsItems;
 
 
     var items = [];

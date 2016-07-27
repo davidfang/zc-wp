@@ -5,11 +5,11 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-
+import {Number} from './Auth';
 class Order extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {type:this.props.type,quantity:1}
+    this.state = {type:1,quantity:1,direction:this.props.direction}
     this.handleChange = this.handleChange.bind(this);
     this.onChange = this.onChange.bind(this);
   }
@@ -41,8 +41,9 @@ class Order extends React.Component {
     return <form id="order">
       <div style={style.formGroup}>
       <lable style={style.lable}>类型</lable>
-      <input type="hidden" value={this.state.type} name="type" id="type"/>
-      <SelectField value={this.state.type}  disabled={true} onChange={this.handleChange}>
+        <input type="hidden" value={this.state.direction} name="direction" id="direction"/>
+        <input type="hidden" value={this.state.type} name="type" id="type"/>
+      <SelectField value={this.state.type}  onChange={this.handleChange}>
         <MenuItem value={1} primaryText="市价单" />
         <MenuItem value={2} primaryText="限价单" />
       </SelectField>
@@ -53,7 +54,7 @@ class Order extends React.Component {
       </div>
       <div style={style.formGroup}>
       <lable style={style.lable}>价格</lable>
-      {this.props.price}元 {this.props.stockOpen}/{this.props.stockClose}
+      {Number(this.props.stockOpen).mul(this.props.size)}/{Number(this.props.stockClose).mul(this.props.size)}元
       </div>
       <div style={style.formGroup}>
       <lable style={style.lable}>数量</lable>

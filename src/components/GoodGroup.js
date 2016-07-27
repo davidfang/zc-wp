@@ -8,14 +8,14 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
 import Order from './Order';
-import {apiPost} from './Auth';
+import {Number,apiPost} from './Auth';
 class GoodGroup extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      type:1,
-      direction:'买涨'
+      direction:1,//方向：1买涨 2买跌
+      directionStr:'买涨'
     };
     this.handleOpen = this.handleOpen.bind(this);
     this.handleOpenUp = this.handleOpenUp.bind(this);
@@ -24,13 +24,13 @@ class GoodGroup extends React.Component{
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   handleOpenUp(){
-    this.setState({type:1, open: true,direction:'买涨'});
+    this.setState({direction:1, open: true,directionStr:'买涨'});
   }
   handleOpenDown(){
-    this.setState({type:2 ,open: true,direction:'买跌'});
+    this.setState({direction:2 ,open: true,directionStr:'买跌'});
   }
-  handleOpen  (type,direction)  {
-    this.setState({open: true,type:type,direction:direction});
+  handleOpen  (direction,directionStr)  {
+    this.setState({open: true,direction:direction,directionStr:directionStr});
   };
 
   handleClose  ()  {
@@ -101,12 +101,12 @@ class GoodGroup extends React.Component{
       <RaisedButton style={{width: '100%'}} label="买涨" secondary={true} fullWidth={true}   onTouchTap={this.handleOpenUp} />
       <div style={style.div}>
         <small>{this.props.name} {this.props.size}{this.props.unit}</small>
-        <div><strong>{this.props.stockOpen}元/手</strong></div>
-        <small>波动盈浮：{this.props.change}元</small>
+        <div><strong>{Number(this.props.stockOpen).mul(this.props.size)}元/手</strong></div>
+        <small>波浮：{Number(this.props.change).mul(this.props.size)}元</small>
       </div>
       <RaisedButton style={{width: '100%'}} label="买跌" primary={true} fullWidth={true}   onTouchTap={this.handleOpenDown} />
       <Dialog contentStyle={style.dialogContent}
-        title={this.state.direction+this.props.name + this.props.size + this.props.unit}
+        title={this.state.directionStr+this.props.name }
         actions={actions}
         actionsContainerStyle={style.actionsStyle}
         modal={false}
@@ -114,7 +114,7 @@ class GoodGroup extends React.Component{
         onRequestClose={this.handleClose}
         autoScrollBodyContent={true}
       >
-        <Order type={this.state.type} {...this.props} />
+        <Order direction={this.state.direction} {...this.props} />
       </Dialog>
     </Paper>
   }
