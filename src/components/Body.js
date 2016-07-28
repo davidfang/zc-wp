@@ -131,15 +131,14 @@ class Body extends React.Component {
 
     var items = [];
     for(let item in goodsItems){
-      let v = goodsItems[item];
-      var stockOpen = this.state.stocks[item].open;
-      var stockClose = this.state.stocks[item].close;
-      for (let key in v){
-        let k = key+item;
-        items.push(<GoodGroup key={k} {...v[key]} stockOpen={stockOpen} stockClose={stockClose}/>);
-      }
-
-    }
+          let v = goodsItems[item];
+          var stockOpen = this.state.stocks[item].open;
+          var stockClose = this.state.stocks[item].close;
+          for (let key in v){
+            let k = key+item;
+            items.push(<GoodGroup key={k} {...v[key]} stockOpen={stockOpen} stockClose={stockClose}/>);
+          }
+        }
 
 
     return <div>

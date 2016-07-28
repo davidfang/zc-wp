@@ -106,7 +106,7 @@ function apiGet(url, params) {
 
 function apiPost(url, params) {
 
-  return fetch(config.apiHost + url,{
+  return fetch(config.apiHost + url+'?access_token='+localStorage.getItem('access-token'),{
     method: 'POST',
     body: params
   });

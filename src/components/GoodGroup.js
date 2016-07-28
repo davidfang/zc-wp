@@ -38,7 +38,7 @@ class GoodGroup extends React.Component{
   };
   handleSubmit(){
     var form = new FormData(document.getElementById('order'));
-    var apiCall = apiPost('/v1/order/add', form);
+    var apiCall = apiPost('/v1/transaction/add', form);
     return apiCall.then(function (response) {
       return response.json();
     }).then(function (json) {
@@ -107,14 +107,14 @@ class GoodGroup extends React.Component{
       <RaisedButton style={{width: '100%'}} label="买跌" primary={true} fullWidth={true}   onTouchTap={this.handleOpenDown} />
       <Dialog contentStyle={style.dialogContent}
         title={this.state.directionStr+this.props.name }
-        actions={actions}
+        
         actionsContainerStyle={style.actionsStyle}
         modal={false}
         open={this.state.open}
         onRequestClose={this.handleClose}
         autoScrollBodyContent={true}
       >
-        <Order direction={this.state.direction} {...this.props} />
+        <Order handleClose={this.handleClose} direction={this.state.direction}  {...this.props} />
       </Dialog>
     </Paper>
   }
