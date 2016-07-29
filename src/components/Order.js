@@ -6,8 +6,9 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
-
+import {green500,red500} from 'material-ui/styles/colors'
 import {Number,apiPost} from './Auth';
+import SelectInput from './SelectInput';
 class Order extends React.Component {
   constructor(props) {
     super(props);
@@ -23,13 +24,10 @@ class Order extends React.Component {
    * @param event
    */
   onChange(event) {
-    console.log('变更变更变更');
-    console.log(event);
     this.setState({
       //[event.target.name]: [event.target.value],
       [event.target.name + 'Err']: ''
     });
-    console.log('变更变更变更');
   }
 
   handleChange(event, index, value) {
@@ -95,6 +93,14 @@ class Order extends React.Component {
         name="quantity"
         onChange={this.onChange}
       />
+      </div>
+      <div style={style.formGroup}>
+      <lable style={style.lable}>止损</lable>
+      <SelectInput color={green500} name="stop_loss" />
+      </div>
+      <div style={style.formGroup}>
+      <lable style={style.lable}>止盈</lable>
+      <SelectInput color={red500} name="stop_profit" />
       </div>
       <div><FlatButton
         label="取消"

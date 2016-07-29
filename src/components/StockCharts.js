@@ -15,7 +15,7 @@ var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse ;
 class StockCharts extends React.Component{
   constructor(props) {
     super(props);
-    let checkedStock = this.props.goods[0];//这里还是做个区别，这里是选择产品K线图
+    let checkedStock = Object.keys(this.props.goodsNames)[0];//这里还是做个区别，这里是选择产品K线图
     var data = {};
     let timeTypes = ['F1','M1']
     this.state = {data:[],checkedStock:checkedStock, timeType:'F1',timeTypes:timeTypes};
@@ -76,18 +76,10 @@ class StockCharts extends React.Component{
    * 异步操作获取数据
    */
   setData(){
-    let  stock;
-    if(this.state.checkedStock == '白银') {
-      stock = 'sliver';
-    }if(this.state.checkedStock == '原油') {
-      stock = 'crude';
-    }
 
     let time = this.state.timeType == 'F1'?'now':this.state.timeType;
-    //let url = '//a-zc-wp.php/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
-    //let url = '//api.dev/v1/data/index?access-token=yVZzJtQPOMk_CrNe5KIk699XDVJYxwm__1466149559&stock='+stock + '&time='+time;
     let access_token=localStorage.getItem('access-token');
-    let url = config.apiHost + '/v1/data/index?access_token='+access_token+'&stock='+stock + '&time='+time;
+    let url = config.apiHost + '/v1/data/index?access_token='+access_token+'&stock='+this.state.checkedStock + '&time='+time;
     if(time == 'now') {
       var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
       //var parseDate = d3.time.format('%Y-%m-%d').parse;
@@ -168,8 +160,8 @@ class StockCharts extends React.Component{
     let timeTypes = ['F1','M1'].map(timeType=>{
       return <TimeType key={timeType} name={timeType}  timeType={this.state.timeType} changeTimeType={this.changeTimeType} />
     });
-    let goods = this.props.goods.map(x=> {
-      return <StockChecked key={x} stock={x} checkedStock={this.state.checkedStock}
+    let goods = Object.keys(this.props.goodsNames).map(x=> {
+      return <StockChecked key={x} stock={x} goodsName={this.props.goodsNames[x]} checkedStock={this.state.checkedStock}
                            changeStock={this.changeStock}/>
     });
     let content = this.getContent();
@@ -178,7 +170,6 @@ class StockCharts extends React.Component{
 
     return <div>
       <div>{goods}</div>
-      <div>{this.state.checkedStock}</div>
       <div style={{height:30}}><ul style={style.navTab}>{timeTypes}</ul></div>
       <div>{content}</div>
     </div>

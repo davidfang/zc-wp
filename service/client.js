@@ -1,5 +1,5 @@
 var db = require('./database');
-
+var config = require('./devConfig');
 db.redis(function (err, client) {
   if (err) {
     console.error(err.toString());
@@ -8,8 +8,12 @@ db.redis(function (err, client) {
 
   //console.log('open , high , low , close  ,change ,volume ,date');
   setInterval(function(){
-    generateData (client,'sliver-last','sliver-realTime');
-    generateData (client,'crude-last','crude-realTime')
+    config.stocks.map(function(stock){
+      generateData (client,stock.symbol + '-last',stock.symbol + '-realTime');
+    });
+    // generateData (client,'sliver-last','sliver-realTime');
+    // generateData (client,'crude-last','crude-realTime')
+
   }, 800);
 
 
@@ -29,10 +33,12 @@ function generateData (client,lastHash,realTimeHash) {
     }
     var now = new Date();
     if (res == null) {//初始化数据
-      var startLast = {'open': 25, 'close': 24, 'high': 25.5, 'low': 23.5, 'volume': 243090, date: currentTime(now)};
-      client.hmset('sliver-last', startLast, client.print);
-      var startLast = {'open': 55, 'close': 54, 'high': 55.5, 'low': 53.5, 'volume': 243090, date: currentTime(now)};
-      client.hmset('crude-last', startLast, client.print);
+      var startLast = {'open': 65, 'close': 64, 'high': 65.5, 'low': 63.5, 'volume': 243090, date: currentTime(now)};
+      client.hmset(lastHash, startLast, client.print);
+      // var startLast = {'open': 25, 'close': 24, 'high': 25.5, 'low': 23.5, 'volume': 243090, date: currentTime(now)};
+      // client.hmset('sliver-last', startLast, client.print);
+      // var startLast = {'open': 55, 'close': 54, 'high': 55.5, 'low': 53.5, 'volume': 243090, date: currentTime(now)};
+      // client.hmset('crude-last', startLast, client.print);
       console.log('startLast:');
 	return ;
       //console.log(startLast);

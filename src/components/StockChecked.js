@@ -21,9 +21,9 @@ class StockChecked extends React.Component {
       margin: 12
     };
     if (this.props.stock != this.props.checkedStock) {
-      return <RaisedButton onClick={this.changeStockCharts} label={this.props.stock} primary={true} style={style}/>
+      return <RaisedButton onClick={this.changeStockCharts} label={this.props.goodsName} primary={true} style={style}/>
     }else{
-      return <RaisedButton label={this.props.stock} disabled={true} style={style}/>
+      return <RaisedButton label={this.props.goodsName} disabled={true} style={style}/>
     }
   }
 }

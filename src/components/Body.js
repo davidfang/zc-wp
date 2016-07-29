@@ -17,12 +17,15 @@ var config = require('config').default;
 class Body extends React.Component {
   constructor(props) {
     super(props);
-    let goods = config.goods;
-    var stocks = config.stocks;
+    let goodsNames = config.goodsNames;
+    var stocks = [];
+        Object.keys(goodsNames).map(x=>{
+          stocks[x] = {symbol:goodsNames[x], open: 0, close: 0, high: 0, low: 0, change: 0}
+        });
 
     var last = {};
 
-    this.state = {goods: goods, stocks: stocks, last: last};
+    this.state = {goodsNames: goodsNames, stocks: stocks, last: last};
 
     this.watchStock = this.watchStock.bind(this);
     this.unwatchStock = this.unwatchStock.bind(this);
@@ -33,7 +36,7 @@ class Body extends React.Component {
 
   componentWillMount() {
     //feed.watch(['MCD', 'BA',  'LLY', 'GM', 'GE', 'UAL', 'WMT', 'AAL', 'JPM']);
-    feed.watch(this.state.goods);
+    feed.watch(Object.keys(this.state.goodsNames));
 
     if (localStorage.getItem('goodsItems') == null) {//没有产品信息时
       var apiCall = apiGet('/v1/transaction/get-goods-items',{});
@@ -62,6 +65,7 @@ class Body extends React.Component {
     feed.onChange(function (stock) {
       let state = this.state;
       //let state = {stocks:{}};
+      stock.name = this.state.goodsNames[stock.symbol];
       state.stocks[stock.symbol] = stock;
       let d = {};
       d.date = new Date(parseDate(stock.date).getTime());//stock.date;//
@@ -132,12 +136,13 @@ class Body extends React.Component {
     var items = [];
     for(let item in goodsItems){
           let v = goodsItems[item];
-          var stockOpen = this.state.stocks[item].open;
-          var stockClose = this.state.stocks[item].close;
-          for (let key in v){
-            let k = key+item;
-            items.push(<GoodGroup key={k} {...v[key]} stockOpen={stockOpen} stockClose={stockClose}/>);
-          }
+      // var stockOpen = this.state.stocks[item].open; //下一步修改成ID式的，不再直接用名称
+      //     var stockClose = this.state.stocks[item].close;
+       var stockOpen = this.state.stocks[v.symbol].open;
+         var stockClose = this.state.stocks[v.symbol].close;
+
+            items.push(<GoodGroup key={item} {...v} stockOpen={stockOpen} stockClose={stockClose}/>);
+
         }
 
 
@@ -149,7 +154,7 @@ class Body extends React.Component {
       <StockCharts
         stocks={this.state.stocks}
         last={this.state.last}
-        goods={this.state.goods}
+        goodsNames={this.state.goodsNames}
       />
     </div>
 
