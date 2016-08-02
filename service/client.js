@@ -9,10 +9,10 @@ db.redis(function (err, client) {
   //console.log('open , high , low , close  ,change ,volume ,date');
   setInterval(function(){
     config.stocks.map(function(stock){
-      generateData (client,stock.symbol + '-last',stock.symbol + '-realTime');
+      generateData (client,stock.symbol + ':last',stock.symbol + ':realTime');
     });
-    // generateData (client,'sliver-last','sliver-realTime');
-    // generateData (client,'crude-last','crude-realTime')
+    // generateData (client,'sliver:last','sliver:realTime');
+    // generateData (client,'crude:last','crude:realTime')
 
   }, 800);
 
@@ -36,9 +36,9 @@ function generateData (client,lastHash,realTimeHash) {
       var startLast = {'open': 65, 'close': 64, 'high': 65.5, 'low': 63.5, 'volume': 243090, date: currentTime(now)};
       client.hmset(lastHash, startLast, client.print);
       // var startLast = {'open': 25, 'close': 24, 'high': 25.5, 'low': 23.5, 'volume': 243090, date: currentTime(now)};
-      // client.hmset('sliver-last', startLast, client.print);
+      // client.hmset('sliver:last', startLast, client.print);
       // var startLast = {'open': 55, 'close': 54, 'high': 55.5, 'low': 53.5, 'volume': 243090, date: currentTime(now)};
-      // client.hmset('crude-last', startLast, client.print);
+      // client.hmset('crude:last', startLast, client.print);
       console.log('startLast:');
 	return ;
       //console.log(startLast);
@@ -96,23 +96,23 @@ function generateData (client,lastHash,realTimeHash) {
     });//写入股票当前价格信息
 
     //写入分时K线所需要的数据
-    var realTimeName = realTimeHash + '-now';//1秒数据集
+    var realTimeName = realTimeHash + ':now';//1秒数据集
     var time = currentTime(now);
     insertRealTime(client, realTimeName, stock, time);//插入数据
     //写入分时K线所需要的数据
-    var realTimeName = realTimeHash + '-M1';//1分钟数据集
+    var realTimeName = realTimeHash + ':M1';//1分钟数据集
     var time = currentTime(now,1);
     insertRealTime(client, realTimeName, stock, time);//插入数据
   //写入分时K线所需要的数据
-    var realTimeName = realTimeHash + '-M5';//5分钟数据集
+    var realTimeName = realTimeHash + ':M5';//5分钟数据集
     var time = currentTime(now,5);
     insertRealTime(client, realTimeName, stock, time);//插入数据
   //写入分时K线所需要的数据
-    var realTimeName = realTimeHash + '-M15';//15分钟数据集
+    var realTimeName = realTimeHash + ':M15';//15分钟数据集
     var time = currentTime(now,15);
     insertRealTime(client, realTimeName, stock, time);//插入数据
   //写入分时K线所需要的数据
-    var realTimeName = realTimeHash + '-H1';//1分钟数据集
+    var realTimeName = realTimeHash + ':H1';//1分钟数据集
     var time = currentTime(now,null,1);
     insertRealTime(client, realTimeName, stock, time);//插入数据
 
@@ -123,7 +123,7 @@ function generateData (client,lastHash,realTimeHash) {
 /**
  * 写入股票当前价格信息
  * @param client  Redis客户端实例化对象
- * @param realTimeName 数据集名称 例：realTime-5m
+ * @param realTimeName 数据集名称 例：realTime:5m
  * @param stock 新的股票数据信息
  * @param time 时间 用来做KEY存放数据的，比方说5分钟线会存 2016-06-16 17:40   2016-06-16 17:45
  * 注意 不同time的要存放到对应的realTimeName 数据集里面
@@ -149,7 +149,7 @@ function insertRealTime(client, realTimeName, stock, time) { //
           return process.exit(4);
         }
       });
-      client.zadd(realTimeName+'-zset', (new Date()).valueOf(),time);
+      client.zadd(realTimeName+':zset', (new Date()).valueOf(),time);
     } else {//查到数据的情况下，要跟老数据比对，处理完再插进去
       /*var oldStock = JSON.parse(res);
 
@@ -181,7 +181,7 @@ function insertRealTime(client, realTimeName, stock, time) { //
           console.log(err.toString());
           return process.exit(5);
         }
-        client.zadd(realTimeName+'-zset',(new Date()).valueOf(), time);
+        client.zadd(realTimeName+':zset',(new Date()).valueOf(), time);
       });
     }
   });

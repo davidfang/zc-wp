@@ -15,7 +15,7 @@ function simulateChange() {
         console.error(err.toString());
         return process.exit(1);
       }
-      client.hgetall(stock.symbol + '-last',function (err,res)  {
+      client.hgetall(stock.symbol + ':last',function (err,res)  {
         //console.log(res);
         var nowStock = {};
         nowStock.symbol = stock.symbol;
