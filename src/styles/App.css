@@ -1,5 +1,5 @@
 /* custom font icons */
-@import "font-icons/style.css";
+@import "font.css";
 /* Base Application Styles */
 body {
   color: #fff;
@@ -20,4 +20,8 @@ body {
   border: 1px solid #000;
   border-width: 1px 0;
   background: #666;
+}
+
+li span {
+  padding: 3px;
 }

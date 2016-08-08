@@ -13,6 +13,7 @@ let config = {
   socketHost: 'localhost:8080',//'node-socket.dev'
   countDown: 20,//获取手机验证码倒计时 秒
   goodsNames: {'sliver':'白银', 'crude':'原油'},//股票中英文对照
+  goodsPriceCoefficient:100,//产品价格调整系数  即产品牌价基点
   goodsItem: {//产品种类
     1: {
       symbol: 'sliver',

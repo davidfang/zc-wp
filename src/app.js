@@ -12,8 +12,11 @@ import SignUp from './components/SignUp';
 import SignOut from './components/SignOut';
 import Body from './components/Body';
 import Ucenter from './components/Ucenter';
+import UcenterIndex from './components/Ucenter/Index';
+import UcenterPositions from './components/Ucenter/Positions';
 import News from './components/News';
 import Help from './components/Help';
+
 import {hasLogin,noLogin,requireAuth,noAuth} from './components/Auth';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
@@ -26,7 +29,10 @@ ReactDOM.render((
     <Router history={browserHistory}>
         <Route onEnter={hasLogin}   path="/" component={Main}>
             <IndexRoute component={Body} />
-            <Route path="ucenter" component={Ucenter} />
+            <Route path="ucenter"  component={Ucenter} >
+              <IndexRoute component={UcenterIndex} />
+              <Route path="Positions" component={UcenterPositions} />
+            </Route>
             <Route path="news" component={News} />
             <Route path="help" component={Help} />
         </Route>

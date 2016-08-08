@@ -103,7 +103,12 @@ function apiGet(url, params) {
   }
   return fetch(config.apiHost + url + '?' + u);
 }
-
+/**
+ * POST请求API
+ * @param url
+ * @param params
+ * @returns {*}
+ */
 function apiPost(url, params) {
 
   return fetch(config.apiHost + url+'?access_token='+localStorage.getItem('access-token'),{
@@ -148,6 +153,50 @@ Number.prototype.div = function (arg){
     return (r1/r2)*Math.pow(10,t2-t1);
 
 }
+/**
+ * 获取产品配置信息
+ * @returns {Promise.<TResult>}
+ */
+function goodsItems() {
+  if (localStorage.getItem('goodsItems') == null) {//没有产品信息时
+    var apiCall = apiGet('/v1/transaction/get-goods-items', {});
+
+    return apiCall.then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      console.log(json);
+      if (json.status) {
+        console.log('成功');
+        localStorage.setItem('goodsItems', JSON.stringify(json.data.goods_items));
+        return json.data.goods_items;
+      } else {
+        console.log('get goodsItem失败');
+        return config.goodsItem;
+      }
+    });
+
+  } else {
+    return JSON.parse(localStorage.getItem('goodsItems'));
+  }
+}
+/**
+ *  将时间戳转换成日期格式
+ *  注意：如果是uinx时间戳记得乘于1000。比如php函数time()获得的时间戳就要乘于1000
+
+ * @param time
+ */
+function timeToDate(time) {
+  let date = new Date(time);
+  let Y = date.getFullYear() + '-';
+  let M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+  let D = date.getDate() + ' ';
+  let h = date.getHours() + ':';
+  let m = date.getMinutes() + ':';
+  let s = date.getSeconds();
+  //console.log(Y+M+D+h+m+s); //呀麻碟
+// 输出结果：2014-04-23 18:55:49
+  return (Y+M+D+h+m+s);
+}
 exports.hasLogin = hasLogin;
 exports.noLogin = noLogin;
 exports.requireAuth = requireAuth;
@@ -155,3 +204,6 @@ exports.noAuth = noAuth;
 exports.apiGet = apiGet;
 exports.apiPost = apiPost;
 exports.Number = Number;
+exports.goodsItems = goodsItems;
+exports.timeToDate = timeToDate;
+

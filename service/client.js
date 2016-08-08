@@ -5,8 +5,7 @@ db.redis(function (err, client) {
     console.error(err.toString());
     return process.exit(1);
   }
-  /*
-  //增加清理数据操作
+  /*//增加清理数据操作
   config.stocks.map(function(stock){
     cleanData (client,stock.symbol + ':last',stock.symbol + ':realTime');
   });*/
