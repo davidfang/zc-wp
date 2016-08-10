@@ -11,14 +11,14 @@ let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: {
-    app:path.join(__dirname, '../src/index'),
+    app:path.join(__dirname, '../src/app'),
     //设置一个vender数组，里面是第三方库
     venders: ['react','react-dom']
     //'react': ['react'],
     //'reactDom': ['react-dom']
   },
   cache: false,
-  devtool: 'sourcemap',
+  devtool: 'eval-source-map',
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
@@ -41,7 +41,7 @@ let config = Object.assign({}, baseConfig, {
 // Add needed loaders to the defaults here
 config.module.loaders.push({
   test: /\.(js|jsx)$/,
-  loader: 'babel',
+  loader: 'babel-loader',
   include: [].concat(
     config.additionalPaths,
     [ path.join(__dirname, '/../src') ]
