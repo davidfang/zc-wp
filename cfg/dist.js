@@ -13,7 +13,9 @@ let config = Object.assign({}, baseConfig, {
   entry: {
     app:path.join(__dirname, '../src/app'),
     //设置一个vender数组，里面是第三方库
-    venders: ['react','react-dom']
+    venders: ['react','react-dom'],
+    //d3:['d3'],
+    //reactStockcharts:['react-stockcharts']
     //'react': ['react'],
     //'reactDom': ['react-dom']
   },
