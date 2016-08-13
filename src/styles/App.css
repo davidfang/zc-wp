@@ -2,8 +2,8 @@
 @import "font.css";
 /* Base Application Styles */
 body {
-  color: #fff;
-  background: #222;
+  /** color: #fff;
+  background: #222; **/
 }
 
 .index img {

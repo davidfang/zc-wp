@@ -9,6 +9,7 @@ import Avatar from 'material-ui/Avatar';
 import {List, ListItem} from 'material-ui/List';
 import ContentDrafts from 'material-ui/svg-icons/content/drafts';
 import ContentSend from 'material-ui/svg-icons/content/send';
+import Snackbar from 'material-ui/Snackbar';
 
 import feed from './../Feed';
 import {apiGet,goodsItems} from './../Auth';
@@ -28,7 +29,13 @@ class Positions extends React.Component {
 
     var last = {};
 
-    this.state = {goodsNames: goodsNames, stocks: stocks, last: last};
+    this.state = {
+      goodsNames: goodsNames,
+      stocks: stocks,
+      last: last,
+      snackbarOpen:false,
+      snackbarMessage:'平仓提示'
+    };
 
     feed.watch(Object.keys(this.state.goodsNames));
 
@@ -55,6 +62,7 @@ class Positions extends React.Component {
     }.bind(this));
 
     this.handleRemove = this.handleRemove.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
   }
 
   componentDidMount() {
@@ -77,10 +85,25 @@ class Positions extends React.Component {
       }
     }.bind(this));
   }
-  handleRemove(i){
+
+  /**
+   * 删除已平仓单子
+   * @param i 删除单子的value
+   * @param msg 提示
+     */
+  handleRemove(i,msg){
     this.state.positions.splice(i,1);
+    this.setState({snackbarOpen:true,snackbarMessage:msg});
   }
 
+  /**
+   * 关闭平仓请求提示
+   */
+  handleRequestClose ()  {
+    this.setState({
+      snackbarOpen: false
+    });
+  };
   render() {
     var goodsItemsObj = goodsItems();
 
@@ -96,9 +119,17 @@ class Positions extends React.Component {
     }
 
 
-    return <ul style={{margin:'0px 15px'}}>
+    return <div><ul style={{margin:'0px 15px'}}>
       {items}
+
       </ul>
+      <Snackbar
+        open={this.state.snackbarOpen}
+        message={this.state.snackbarMessage}
+        autoHideDuration={1500}
+        onRequestClose={this.handleRequestClose}
+      />
+    </div>
   }
 }
 export default Positions;

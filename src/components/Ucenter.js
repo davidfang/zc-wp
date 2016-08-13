@@ -26,9 +26,9 @@ class Ucenter extends React.Component {
       income: 0
     };
   }
-  
+
   componentDidMount() {
-    
+
 
 
     var apiCall = apiGet('/v1/ucenter/amount', {});

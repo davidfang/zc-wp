@@ -6,6 +6,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Snackbar from 'material-ui/Snackbar';
 
 import Order from './Order';
 import {Number,apiPost} from './Auth';
@@ -15,21 +16,44 @@ class GoodGroup extends React.Component{
     this.state = {
       open: false,
       direction:1,//方向：1买涨 2买跌
-      directionStr:'买涨'
+      directionStr:'买涨',
+      snackbarOpen:false,
+      snackbarMessage:'订单提示'
     };
     this.handleOpenUp = this.handleOpenUp.bind(this);
     this.handleOpenDown = this.handleOpenDown.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
   }
+
+  /**
+   * 打开卖涨
+   */
   handleOpenUp(){
     this.setState({direction:1, open: true,directionStr:'买涨'});
   }
+
+  /**
+   * 打开买跌
+   */
   handleOpenDown(){
     this.setState({direction:2 ,open: true,directionStr:'买跌'});
   }
-  
-  handleClose  ()  {
-    this.setState({open: false});
+
+  /**
+   * 关闭请求提示
+   */
+  handleRequestClose ()  {
+    this.setState({
+      snackbarOpen: false
+    });
+  };
+  handleClose  (msg)  {
+    if(msg != '') {
+      this.setState({open: false, snackbarOpen: true, snackbarMessage: msg});
+    }else {
+      this.setState({open: false});
+    }
   };
 
   render(){
@@ -73,6 +97,13 @@ class GoodGroup extends React.Component{
       >
         <Order handleClose={this.handleClose} direction={this.state.direction}  {...this.props} />
       </Dialog>
+
+      <Snackbar
+        open={this.state.snackbarOpen}
+        message={this.state.snackbarMessage}
+        autoHideDuration={1500}
+        onRequestClose={this.handleRequestClose}
+      />
     </Paper>
   }
 }

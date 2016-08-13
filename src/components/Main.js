@@ -30,6 +30,7 @@ class Main extends React.Component {
    * @param tab
    */
   handleActive(tab) {
+    console.log(tab.props['data-route']);
     this.context.router.push(tab.props['data-route']);
   }
 

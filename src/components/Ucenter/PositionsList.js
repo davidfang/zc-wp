@@ -44,7 +44,7 @@ class Index extends React.Component {
         console.log('成功');
         //this.setState({positions:json.data.positions});
         //删除key对应的持仓
-        this.props.handleRemove(this.props.positionKey);
+        this.props.handleRemove(this.props.positionKey,json.msg);
       } else {
         console.log('失败');
       }

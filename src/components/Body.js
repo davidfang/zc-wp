@@ -32,6 +32,7 @@ class Body extends React.Component {
     this.changeState = this.changeState.bind(this);
 
 
+
   }
 
   componentWillMount() {

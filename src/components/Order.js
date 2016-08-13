@@ -6,13 +6,19 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
+
 import {green500,red500} from 'material-ui/styles/colors'
 import {Number,apiPost} from './Auth';
 import SelectInput from './SelectInput';
 class Order extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {type:1,quantity:1,quantityErr:'',direction:this.props.direction}
+    this.state = {
+      type:1,
+      quantity:1,
+      quantityErr:'',
+      direction:this.props.direction
+    }
     this.handleChange = this.handleChange.bind(this);
     this.onChange = this.onChange.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -34,19 +40,19 @@ class Order extends React.Component {
     this.setState({type:value})
   }
   handleClose  ()  {
-    this.props.handleClose();
+    this.props.handleClose('');
   };
   handleSubmit(){
     var form = new FormData(document.getElementById('order'));
     var apiCall = apiPost('/v1/transaction/add', form);
-    return apiCall.then(function (response) {
+    apiCall.then(function (response) {
       return response.json();
     }).then(function (json) {
       console.log(json);
       if (json.status) {
         console.log('成功');
         //replace('/ucenter' );
-        return true;
+        this.props.handleClose(json.msg);
       } else {
         console.log('失败');
         for (let key of Object.keys(json.error)) {
@@ -54,7 +60,7 @@ class Order extends React.Component {
         }
       }
     }.bind(this));
-    //this.handleClose();
+
   }
   render() {
     let style = {

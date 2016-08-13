@@ -15,7 +15,9 @@ import Ucenter from './components/Ucenter';
 import UcenterIndex from './components/Ucenter/Index';
 import UcenterPositions from './components/Ucenter/Positions';
 import News from './components/News';
+import NewsDetail from './components/NewsDetail';
 import Help from './components/Help';
+import HelpDetail from './components/HelpDetail';
 
 import {hasLogin,noLogin,requireAuth,noAuth} from './components/Auth';
 // Needed for onTouchTap
@@ -34,7 +36,9 @@ ReactDOM.render((
               <Route path="Positions" component={UcenterPositions} />
             </Route>
             <Route path="news" component={News} />
+            <Route path="news/:id" component={NewsDetail} />
             <Route path="help" component={Help} />
+            <Route path="help/:id" component={HelpDetail} />
         </Route>
         <Route  path="/user/" component={User} >
             <IndexRoute onEnter={noLogin} component={SignUp} />
