@@ -22,10 +22,16 @@ class Index extends React.Component {
     this.handleTouch = this.handleTouch.bind(this);
   }
 
-  handleTouch(event: object, menuItem: object, index: number){
+  handleTouch(event: object, menuItem: object, index: number) {
     console.log(menuItem);
+    if (menuItem.props.value == 'SignOut') {
+      localStorage.removeItem('access-token');
+      sessionStorage.removeItem('login');
+      this.context.router.push('/user/SignIn');
+    } else {
+      this.context.router.push(menuItem.props.value);
+    }
 
-    this.context.router.push(menuItem.props.value);
   }
 
   render() {
@@ -35,7 +41,7 @@ class Index extends React.Component {
           <MenuItem primaryText="持仓产品" value="/ucenter/positions"  leftIcon={<PersonAdd />}  rightIcon={<ArrowDropRight />}/>
           <MenuItem primaryText="修改密码" leftIcon={<ContentLink />}  rightIcon={<ArrowDropRight />} />
           <Divider />
-          <MenuItem primaryText="退出账户" leftIcon={<ContentCopy />}  rightIcon={<ArrowDropRight />} />
+          <MenuItem primaryText="退出账户" value="SignOut" leftIcon={<ContentCopy />}  rightIcon={<ArrowDropRight />} />
           <MenuItem primaryText="Download" leftIcon={<Download />}  rightIcon={<ArrowDropRight />} />
           <Divider />
           <MenuItem primaryText="Remove" leftIcon={<Delete />}  rightIcon={<ArrowDropRight />} />

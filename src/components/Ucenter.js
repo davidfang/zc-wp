@@ -15,8 +15,8 @@ var d3 = require('d3');
 var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
 var config = require('config').default;
 class Ucenter extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       avatar: '/images/defaultAvatar.png',
@@ -95,5 +95,8 @@ class Ucenter extends React.Component {
       {this.props.children}
     </div>
   }
+}
+Ucenter.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 export default Ucenter;

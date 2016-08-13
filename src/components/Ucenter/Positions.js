@@ -19,8 +19,8 @@ var parseDate = d3.time.format('%Y-%m-%d %H:%M:%S').parse;
 var config = require('config').default;
 
 class Positions extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     let goodsNames = config.goodsNames;
     var stocks = [];
     Object.keys(goodsNames).map(x=> {
@@ -85,7 +85,10 @@ class Positions extends React.Component {
       }
     }.bind(this));
   }
-
+  componentWillUnmount() {
+    // 上面步骤四，在组件移除前忽略正在进行中的请求
+    this.ignoreLastFetch = true
+  }
   /**
    * 删除已平仓单子
    * @param i 删除单子的value
@@ -131,5 +134,8 @@ class Positions extends React.Component {
       />
     </div>
   }
+}
+Positions.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 export default Positions;
