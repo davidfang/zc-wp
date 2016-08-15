@@ -20,7 +20,7 @@ let config = Object.assign({}, baseConfig, {
     //'reactDom': ['react-dom']
   },
   cache: false,
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.DefinePlugin({
