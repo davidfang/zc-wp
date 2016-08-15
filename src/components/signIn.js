@@ -62,14 +62,15 @@ class SignIn extends React.Component {
       margin: 12,
       width:'80%'
     };
-    return <form id="signIn">
+    const errStyle = {textAlign:'left'};
+    return <form id="signIn" style={{textAlign:'center'}}>
           <TextField
             id="mobile"
             name="mobile"
-            onChange={this.mobileChange}
             floatingLabelText="请填手机号码"
             hintText="请填手机号码"
             errorText={this.state.mobileErr}
+            errorStyle = {errStyle}
             onChange={this.onChange}
           />
           <br />
@@ -79,6 +80,8 @@ class SignIn extends React.Component {
             type="password"
             id="password"
             name="password"
+            errorText={this.state.passwordErr}
+            errorStyle = {errStyle}
             onChange={this.onChange}
           /><br />
           <RaisedButton label="登录" primary={true} fullWidth={false} onClick={this.singIn} style={style}/>

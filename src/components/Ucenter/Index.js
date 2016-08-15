@@ -7,12 +7,13 @@ import Paper from 'material-ui/Paper';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import RemoveRedEye from 'material-ui/svg-icons/image/remove-red-eye';
-import PersonAdd from 'material-ui/svg-icons/social/person-add';
-import ContentLink from 'material-ui/svg-icons/content/link';
 import Divider from 'material-ui/Divider';
-import ContentCopy from 'material-ui/svg-icons/content/content-copy';
-import Download from 'material-ui/svg-icons/file/file-download';
-import Delete from 'material-ui/svg-icons/action/delete';
+import MonetizationOn from 'material-ui/svg-icons/editor/monetization-on';
+import List from 'material-ui/svg-icons/action/list';
+import ViewList from 'material-ui/svg-icons/action/view-list';
+import Payment from 'material-ui/svg-icons/action/payment';
+import Lock from 'material-ui/svg-icons/action/lock';
+import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right';
 
 
@@ -22,7 +23,7 @@ class Index extends React.Component {
     this.handleTouch = this.handleTouch.bind(this);
   }
 
-  handleTouch(event: object, menuItem: object, index: number) {
+  handleTouch(event:object, menuItem:object, index:number) {
     console.log(menuItem);
     if (menuItem.props.value == 'SignOut') {
       localStorage.removeItem('access-token');
@@ -36,16 +37,19 @@ class Index extends React.Component {
 
   render() {
 
-    return <Menu onItemTouchTap={this.handleTouch}>
-          <MenuItem primaryText="交易记录" leftIcon={<RemoveRedEye />}  rightIcon={<ArrowDropRight />}/>
-          <MenuItem primaryText="持仓产品" value="/ucenter/positions"  leftIcon={<PersonAdd />}  rightIcon={<ArrowDropRight />}/>
-          <MenuItem primaryText="修改密码" leftIcon={<ContentLink />}  rightIcon={<ArrowDropRight />} />
-          <Divider />
-          <MenuItem primaryText="退出账户" value="SignOut" leftIcon={<ContentCopy />}  rightIcon={<ArrowDropRight />} />
-          <MenuItem primaryText="Download" leftIcon={<Download />}  rightIcon={<ArrowDropRight />} />
-          <Divider />
-          <MenuItem primaryText="Remove" leftIcon={<Delete />}  rightIcon={<ArrowDropRight />} />
-        </Menu>
+    return <Menu style={{width:'96%'}} onItemTouchTap={this.handleTouch}>
+      <MenuItem primaryText="交易记录" leftIcon={<ViewList />} rightIcon={<ArrowDropRight />}/>
+      <MenuItem primaryText="持仓产品" value="/ucenter/positions" leftIcon={<RemoveRedEye />} rightIcon={<ArrowDropRight />}/>
+      <Divider />
+      <MenuItem primaryText="充值" leftIcon={<MonetizationOn />} rightIcon={<ArrowDropRight />}/>
+      <MenuItem primaryText="提现" leftIcon={<Payment />} rightIcon={<ArrowDropRight />}/>
+      <MenuItem primaryText="资金流水" leftIcon={<List />} rightIcon={<ArrowDropRight />}/>
+      <Divider />
+      <MenuItem primaryText="修改密码" value="/ucenter/changePassWord" leftIcon={<Lock />}
+                rightIcon={<ArrowDropRight />}/>
+      <MenuItem primaryText="退出账户" value="SignOut" leftIcon={<ExitToApp />} rightIcon={<ArrowDropRight />}/>
+
+    </Menu>
   }
 }
 Index.contextTypes = {

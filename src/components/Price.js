@@ -3,8 +3,9 @@
  */
 import React from 'react';
 import {red500, lightGreen500} from 'material-ui/styles/colors';
-import FontIcon from 'material-ui/FontIcon';
 import {TableRowColumn} from 'material-ui/Table';
+import TrendingUp from 'material-ui/svg-icons/action/trending-up';
+import TrendingDown from 'material-ui/svg-icons/action/trending-down';
 
 class Price extends React.Component {
   render() {
@@ -30,24 +31,23 @@ class Price extends React.Component {
         marginRight: 15
       }
     };
-    var lastStyle = {},
+    var trending ,
+      lastStyle = {},
       icon = '',
       iconStyle = {};
 
     if (this.props.stock.change < 0) {
       lastStyle = styles.down;
-      icon = 'trending_down';
-      iconStyle = styles.iconDown;
+      trending = <TrendingDown style={styles.iconDown} />
     } else if (this.props.stock.change >= 0) {
       lastStyle = styles.up;
-      icon = 'trending_up';
-      iconStyle = styles.iconUp;
+      trending = <TrendingUp style={styles.iconUp}/>
     }
 
 
     return <TableRowColumn style={lastStyle}>
       <span>{this.props.stock.name} <big>{this.props.stock.close}</big></span>
-      <FontIcon className="material-icons" style={iconStyle}>{icon}</FontIcon>
+      {trending}
       <i>{this.props.stock.change}</i>
     </TableRowColumn>
   }

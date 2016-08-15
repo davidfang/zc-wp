@@ -13,6 +13,7 @@ import SignOut from './components/SignOut';
 import Body from './components/Body';
 import Ucenter from './components/Ucenter';
 import UcenterIndex from './components/Ucenter/Index';
+import ChangePassWord from './components/Ucenter/ChangePassWord';
 import UcenterPositions from './components/Ucenter/Positions';
 import News from './components/News';
 import NewsDetail from './components/NewsDetail';
@@ -34,6 +35,7 @@ ReactDOM.render((
             <Route path="ucenter"  component={Ucenter} >
               <IndexRoute component={UcenterIndex} />
               <Route path="Positions" component={UcenterPositions} />
+              <Route path="ChangePassWord" component={ChangePassWord} />
             </Route>
             <Route path="news" component={News} />
             <Route path="news/:id" component={NewsDetail} />

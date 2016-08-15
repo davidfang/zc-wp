@@ -11,7 +11,10 @@ import FontIcon from 'material-ui/FontIcon';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import AccountBalance from 'material-ui/svg-icons/action/account-balance';
+import AccountBox from 'material-ui/svg-icons/action/account-box';
+import Receipt from 'material-ui/svg-icons/action/receipt';
+import LiveHelp from 'material-ui/svg-icons/communication/live-help';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -54,25 +57,25 @@ class Main extends React.Component {
           </div>
           <Tabs style={style.tabs}>
             <Tab
-              icon={<FontIcon className="material-icons">monetization_on</FontIcon>}
+              icon={<AccountBalance />}
               label="行情"
               data-route="/"
               onActive={this.handleActive}
             />
             <Tab
-              icon={<FontIcon className="material-icons">account_box</FontIcon>}
+              icon={<AccountBox />}
               label="账户"
               data-route="/ucenter"
               onActive={this.handleActive}
             />
             <Tab
-              icon={<FontIcon className="material-icons">explore</FontIcon>}
+              icon={<Receipt />}
               label="数据"
               data-route="/news"
               onActive={this.handleActive}
             />
             <Tab
-              icon={<FontIcon className="material-icons">help</FontIcon>}
+              icon={<LiveHelp />}
               label="帮助"
               data-route="/help"
               onActive={this.handleActive}

@@ -134,7 +134,8 @@ class SignUp extends React.Component {
       margin: 12,
       width:'80%'
     };
-    return <form id="signUp">
+    const errStyle = {textAlign:'left'};
+    return <form id="signUp"  style={{textAlign:'center'}}>
           <input type="hidden" id="username" name="username" value={this.state.mobile}/>
           <TextField
             id="mobile"
@@ -143,6 +144,7 @@ class SignUp extends React.Component {
             floatingLabelText="请填手机号码"
             hintText="请填手机号码"
             errorText={this.state.mobileErr}
+            errorStyle = {errStyle}
             style={{width:'40%'}}
           />
 
@@ -153,6 +155,7 @@ class SignUp extends React.Component {
             hintText="请输入验证码"
             floatingLabelText="请输入验证码"
             errorText={this.state.codeErr}
+            errorStyle = {errStyle}
             id="code"
             name="code"
             onChange={this.onChange}
@@ -160,7 +163,8 @@ class SignUp extends React.Component {
           <TextField
             hintText="密码"
             floatingLabelText="密码"
-            errorText={this.state.passowordErr}
+            errorText={this.state.passwordErr}
+            errorStyle = {errStyle}
             type="password"
             id="password"
             name="password"
