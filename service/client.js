@@ -5,45 +5,35 @@ db.redis(function (err, client) {
     console.error(err.toString());
     return process.exit(1);
   }
-  /*//增加清理数据操作
-  config.stocks.map(function(stock){
-    cleanData (client,stock.symbol + ':last',stock.symbol + ':realTime');
-  });*/
 
   //console.log('open , high , low , close  ,change ,volume ,date');
   setInterval(function(){
     config.stocks.map(function(stock){
-      generateData (client,stock.symbol + ':last',stock.symbol + ':realTime');
+      generateData (client,stock.symbol);
     });
-    // generateData (client,'sliver:last','sliver:realTime');
-    // generateData (client,'crude:last','crude:realTime')
+    // generateData (client,'sliver');
+    // generateData (client,'crude')
 
-  }, 800);
+  }, 8000);
 
 
 });
 
 /**
- * 清除数据
- * @param client   Redis客户端实例化对象
+ *
+ * @param client
  * @param lastHash  当前数据存放的hash
  * @param realTimeHash  分时数据存放的hash
  */
-function cleanData (client,lastHash,realTimeHash) {
-  client.del(lastHash);
-  client.del(realTimeHash+':now',realTimeHash+':now:zset');
-  client.del(realTimeHash+':M1',realTimeHash+':M1:zset');
-  client.del(realTimeHash+':M5',realTimeHash+':M5:zset');
-  client.del(realTimeHash+':M15',realTimeHash+':M15:zset');
-  client.del(realTimeHash+':H1',realTimeHash+':H1:zset');
-}
+//function generateData (client,lastHash,realTimeHash) {
 /**
  * 生成数据
  * @param client   Redis客户端实例化对象
- * @param lastHash  当前数据存放的hash
- * @param realTimeHash  分时数据存放的hash
+ * @param symbol  对应股票名称代码
  */
-function generateData (client,lastHash,realTimeHash) {
+function generateData (client,symbol) {
+  var lastHash = symbol + ':last';//  当前数据存放的hash
+   var realTimeHash = symbol + ':realTime';//  分时数据存放的hash
   client.hgetall(lastHash, function (err, res) {
     if (err) {
       console.log('没取到初始数据');
@@ -137,6 +127,10 @@ function generateData (client,lastHash,realTimeHash) {
 
     //console.log(stock.open + ' ,' + stock.high + '  ,' + stock.low + ' ,' + stock.close + ' ,' + stock.change + ' ,' + stock.volume + ' ,' + stock.date);
     //return process.exit(2);
+    console.log('===============');
+    //检查平仓操作
+    lossProfit (client,symbol,stock.open * 100,1);//买涨
+    lossProfit (client,symbol,stock.open * 100,2);//买跌
   })
 }
 /**
@@ -312,7 +306,88 @@ io.on('connection', function (socket) {
     console.log('用户失去连接. %s. Socket id %s', socket.id);
   });
 });
+/**
+ * 止损止盈检查执行
+ * 对当前价格所有的止损，止盈进行排查并将相关的单子结束掉
+ * @param client   Redis客户端实例化对象
+ * @param symbol  对应股票名称代码
+ * @param stockPrice   股票当前价格
+ * @param direction   交易方向1买涨，2买跌
+ *
+ */
+function lossProfit (client,symbol,stockPrice,direction) {
+  var lossKey = symbol + ':loss:' + direction;
+  var profitKey = symbol + ':profit:' + direction;
+  var loss,profit;
+  if(direction == 1) {
+    loss = client.zrangebyscore(lossKey,stockPrice, '+inf',function (err, res) {lossOperating (client,lossKey,stockPrice,err, res)});
+    profit = client.zrangebyscore(profitKey, '-inf', stockPrice,function (err, res) {lossOperating (client,profitKey,stockPrice,err, res)});
+  }else if(direction == 2) {
+    loss = client.zrangebyscore(lossKey,  '-inf', stockPrice,function (err, res) {lossOperating (client,lossKey,stockPrice,err, res)});
+    profit = client.zrangebyscore(profitKey,stockPrice, '+inf',function (err, res) {lossOperating (client,profitKey,stockPrice,err, res)});
+  }
+  //console.log(loss);
+  //console.log(profit);
 
+}
+/**
+ * 止损操作
+ * @param client Redis客户端实例化对象
+ * @param key Redis操作的数据key
+ * @param price 止损止盈时的价格
+ * @param err
+ * @param res  止损 止盈表中获得的数据
+ */
+function lossOperating(client,key,price,err, res) {
+  if (err) {
+    console.log('没取到初始数据');
+    console.log(err.toString());
+    return process.exit(1);
+  }
+  if(res != null && res.length >0 ){//拿到止损止盈信息
+    console.log('-----------------------');
+    console.log(key);
+    console.log(key.substring(0,-1));
+    console.log('\n');
+
+    console.log(res);
+    console.log(res.join(','));
+    var keyArray = key.split(':');
+    console.log(keyArray);
+
+    //首先把这些止损止盈的信息从止损止盈表中删除
+    //client.zrem(key,eval(res.join(',')));
+    //client.zrem(keyArray[0]+":loss:"+keyArray[2],eval(res.join(',')));
+    //client.zrem(keyArray[0]+":profit:"+keyArray[2],eval(res.join(',')));
+
+    //将交易单号写入队列，等待PHP执行
+
+
+    res.map(function(id){//交易订单ID
+      console.log('k:',id);
+      client.hget('transaction',id ,function(err,res){//获得交易详细信息
+       // console.log('transaction:',res);
+        if (err) {
+          console.log('没取到初始数据');
+          console.log(err.toString());
+          return process.exit(2);
+        }
+        console.log(res);
+        if(res != null){//获取到交易数据
+          var transactionInfo = JSON.parse(res);
+          console.log(transactionInfo);
+          //修改交易信息数据
+          transactionInfo.close_type = keyArray[1]=='loss'?'2':'3';
+          transactionInfo.close_price = price;
+          transactionInfo.close_at = Date.parse( new Date()) / 1000;
+          console.log(transactionInfo);
+          //写入数据到交易信息
+          //client.hset('transaction',id,JSON.stringify(transactionInfo));
+        }
+      })
+    });
+  }
+}
 feed.start(function(room, type, message) {
   io.to(room).emit(type, message);
   //console.log(room, type,message);
