@@ -6,7 +6,7 @@
  4.stockcharts使用/react-stockcharts下处理过的，配置/cfg/base.js中resolve  ===》alias ===》'react-stockcharts'
 
 ###配置
- 1. /devConfig.js
+ 1. /service/devConfig.js
  2. /src/config*
 
 

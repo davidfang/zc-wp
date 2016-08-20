@@ -8,11 +8,6 @@ let config = {
   appEnv: 'dist',  // feel free to remove the appEnv property here
   apiHost: 'http://a-zc-wp.php',
   imgHost: 'http://localhost:8000',
-  redis: {
-    host: 'localhost',//'redis',
-    port: 6379,
-    db: 2
-  },
   socketHost: 'localhost:8080',//'node-socket.dev'
   countDown: 20,//获取手机验证码倒计时 秒
   goodsNames: {'sliver':'白银', 'crude':'原油'},//股票中英文对照
