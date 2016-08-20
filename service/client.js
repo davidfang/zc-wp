@@ -350,10 +350,10 @@ function lossOperating(client,key,price,err, res) {
     console.log(key.substring(0,-1));
     console.log('\n');
 
-    console.log(res);
-    console.log(res.join(','));
+    //console.log(res);
+    //console.log(res.join(','));
     var keyArray = key.split(':');
-    console.log(keyArray);
+    //console.log(keyArray);
 
     //首先把这些止损止盈的信息从止损止盈表中删除
     //client.zrem(key,eval(res.join(',')));
@@ -367,6 +367,16 @@ function lossOperating(client,key,price,err, res) {
       console.log('k:',id);
       client.hget('transaction',id ,function(err,res){//获得交易详细信息
        // console.log('transaction:',res);
+        //写入队列，等待PHP操作
+        var queueData = {
+          id:id,
+          close_type : keyArray[1]=='loss'?'2':'3',
+          close_price : price,
+          close_at : Date.parse( new Date()) / 1000
+        };
+        sendQueue(client,"\\console\\jobs\\",queueData,'lossProfit');//此处可以优化区分涨跌止损止盈，后续分开操作队列
+
+
         if (err) {
           console.log('没取到初始数据');
           console.log(err.toString());
@@ -387,6 +397,19 @@ function lossOperating(client,key,price,err, res) {
       })
     });
   }
+}
+/**
+ * 发送队列
+ * @param client Redis客户端实例化对象
+ * @param job 操作  为PHP中的work中内容
+ * @param data 数据
+ * @param queue 队列名称
+ */
+function sendQueue(client,job, data, queue){
+    var queueJson = {"job":job,"data":data};
+    queue = queue == null ? 'default' : queue;
+    queue = 'queue:' + queue;
+    client.rpush(queue,JSON.stringify(queueJson));
 }
 feed.start(function(room, type, message) {
   io.to(room).emit(type, message);
