@@ -29,24 +29,144 @@ injectTapEventPlugin();
 // For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
 //ReactDOM.render(<Main />, document.getElementById('app'));
 ReactDOM.render((
-    <Router history={browserHistory}>
-        <Route onEnter={hasLogin}   path="/" component={Main}>
-            <IndexRoute component={Body} />
-            <Route path="ucenter"  component={Ucenter} >
-              <IndexRoute component={UcenterIndex} />
-              <Route path="Positions" component={UcenterPositions} />
-              <Route path="ChangePassWord" component={ChangePassWord} />
-            </Route>
-            <Route path="news" component={News} />
-            <Route path="news/:id" component={NewsDetail} />
-            <Route path="help" component={Help} />
-            <Route path="help/:id" component={HelpDetail} />
-        </Route>
-        <Route  path="/user/" component={User} >
-            <IndexRoute onEnter={noLogin} component={SignUp} />
-            <Route onEnter={noLogin}  path="SignUp" component={SignUp} />
-            <Route onEnter={noLogin} path="SignIn" component={SignIn} />
-            <Route onEnter={hasLogin} path="SignOut" component={SignOut} />
-        </Route>
-    </Router>
+  <Router history={browserHistory}>
+    <Route onEnter={hasLogin}
+           path="/"
+      //component={Main}
+           getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/Main').default);
+ });
+ }}
+
+    >
+      <IndexRoute
+        getComponent={(location, callback) => {
+       require.ensure([], function (require) {
+       callback(null, require('./components/Body').default);
+       });
+       }}
+      />
+      <Route path="ucenter"
+        //component={Ucenter}
+             getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/Ucenter').default);
+ });
+ }}
+      >
+        <IndexRoute
+          //component={UcenterIndex}
+          getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/Ucenter/Index').default);
+ });
+ }}
+        />
+        <Route
+          path="Positions"
+          //component={UcenterPositions}
+          getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/Ucenter/Positions').default);
+ });
+ }}
+        />
+        <Route
+          path="ChangePassWord"
+          //component={ChangePassWord}
+          getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/Ucenter/ChangePassWord').default);
+ });
+ }}
+        />
+      </Route>
+      <Route
+        path="news"
+        //component={News}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/News').default);
+ });
+ }}
+      />
+      <Route
+        path="news/:id"
+        //component={NewsDetail}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/NewsDetail').default);
+ });
+ }}
+      />
+      <Route
+        path="help"
+        //component={Help}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/Help').default);
+ });
+ }}
+      />
+      <Route
+        path="help/:id"
+        //component={HelpDetail}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/HelpDetail').default);
+ });
+ }}
+      />
+    </Route>
+    <Route
+      path="/user/"
+      //component={User}
+      getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/User').default);
+ });
+ }}
+    >
+      <IndexRoute
+        onEnter={noLogin}
+        //component={SignUp}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/SignUp').default);
+ });
+ }}
+      />
+      <Route
+        onEnter={noLogin}
+        path="SignUp"
+        //component={SignUp}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/SignUp').default);
+ });
+ }}
+      />
+      <Route
+        onEnter={noLogin}
+        path="SignIn"
+        //component={SignIn}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/SignIn').default);
+ });
+ }}
+      />
+      <Route
+        onEnter={hasLogin}
+        path="SignOut"
+        //component={SignOut}
+        getComponent={(location, callback) => {
+ require.ensure([], function (require) {
+ callback(null, require('./components/SignOut').default);
+ });
+ }}
+      />
+    </Route>
+  </Router>
 ), document.getElementById('app'))
