@@ -6,9 +6,9 @@ import baseConfig from './base';
 let config = {
   appName: '牡丹园',
   appEnv: 'dist',  // feel free to remove the appEnv property here
-  apiHost: 'http://a-zc-wp.php',
-  imgHost: 'http://localhost:8000',
-  socketHost: 'localhost:8080',//'node-socket.dev'
+  apiHost: 'http://wp-api.sikerdi.com',//'http://a-zc-wp.php',
+  imgHost: 'http://wp-node.sikerdi.com',
+  socketHost: 'wp-socket.sikerdi.com',//'localhost:8080',//'node-socket.dev'
   countDown: 20,//获取手机验证码倒计时 秒
   goodsNames: {'sliver':'白银', 'crude':'原油'},//股票中英文对照
   goodsPriceCoefficient:100,//产品价格调整系数  即产品牌价基点

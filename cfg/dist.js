@@ -13,11 +13,12 @@ let config = Object.assign({}, baseConfig, {
   entry: {
     app:path.join(__dirname, '../src/app'),
     //设置一个vender数组，里面是第三方库
-    venders: ['react','react-dom'],
+    venders: ['react','react-dom','material-ui'],
     //d3:['d3'],
-    //reactStockcharts:['react-stockcharts']
-    //'react': ['react'],
-    //'reactDom': ['react-dom']
+    //materialUi:['material-ui'],
+    //reactStockcharts:['react-stockcharts'],
+    //react: ['react'],
+    //reactDom: ['react-dom']
   },
   cache: false,
   devtool: 'source-map',
@@ -34,7 +35,8 @@ let config = Object.assign({}, baseConfig, {
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin(),
     //将venders数组下的第三方库统一打包为一个venders.js的文件
-    new webpack.optimize.CommonsChunkPlugin('venders', 'venders.js')
+    new webpack.optimize.CommonsChunkPlugin('venders', 'venders.js'),
+    //new webpack.optimize.CommonsChunkPlugin( 'chunk.js')
     //new webpack.optimize.CommonsChunkPlugin({names: ['react', 'reactDom'], filename: '[name].js'})
   ],
   module: defaultSettings.getDefaultModules()

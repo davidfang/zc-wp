@@ -1,26 +1,26 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, IndexRoute ,browserHistory } from 'react-router'
+import {Router, Route, IndexRoute, browserHistory} from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Main from './components/Main'; // Our custom react component
+//import Main from './components/Main'; // Our custom react component
 
 
+//import User from './components/User';
+// import SignIn from './components/SignIn';
+// import SignUp from './components/SignUp';
+// import SignOut from './components/SignOut';
+// import Body from './components/Body';
+// import Ucenter from './components/Ucenter';
+// import UcenterIndex from './components/Ucenter/Index';
+// import ChangePassWord from './components/Ucenter/ChangePassWord';
+// import UcenterPositions from './components/Ucenter/Positions';
+// import News from './components/News';
+// import NewsDetail from './components/NewsDetail';
+// import Help from './components/Help';
+// import HelpDetail from './components/HelpDetail';
 
-import User from './components/User';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
-import SignOut from './components/SignOut';
-import Body from './components/Body';
-import Ucenter from './components/Ucenter';
-import UcenterIndex from './components/Ucenter/Index';
-import ChangePassWord from './components/Ucenter/ChangePassWord';
-import UcenterPositions from './components/Ucenter/Positions';
-import News from './components/News';
-import NewsDetail from './components/NewsDetail';
-import Help from './components/Help';
-import HelpDetail from './components/HelpDetail';
-
-import {hasLogin,noLogin,requireAuth,noAuth} from './components/Auth';
+import {hasLogin, noLogin, requireAuth, noAuth} from './components/Auth';
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
