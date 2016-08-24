@@ -1,4 +1,6 @@
 var config = require('config').default;
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
 /**
  * 判断登录
  * @param nextState

@@ -67,13 +67,16 @@
   "dependencies": {
     "core-js": "^2.0.0",
     "d3": "^3.5.17",
-    "redis":"^2.6.2",
+    "es6-promise": "^3.2.1",
+    "history": "",
+    "isomorphic-fetch": "^2.2.1",
+    "material-ui": "^0.15.2",
     "normalize.css": "^3.0.3",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
-    "material-ui":"^0.15.2",
-    "react-router":"^2.6.0",
-    "history":"",
+    "react-router": "^2.6.0",
+    "react-stockcharts": "^0.5.0",
+    "redis": "^2.6.2",
     "socket.io": "^1.4.6",
     "socket.io-client": "^1.4.6"
   }
